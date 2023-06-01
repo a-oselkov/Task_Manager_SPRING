@@ -1,0 +1,11 @@
+users:
+  - id: 1
+    email: john@gmail.com
+    first_name: John
+    last_name: Smith
+    password: 12345
+  - id: 2
+    email: jack@gmail.com
+    first_name: Jack
+    last_name: Doe
+    password: 12345
