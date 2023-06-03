@@ -22,7 +22,7 @@ public class JWTHelper {
     private final Long clockSkewSec;
     private final Clock clock;
 
-    public JWTHelper(@Value("${jwt.issuer:spring_blog}") final String issuer,
+    public JWTHelper(@Value("${jwt.issuer:spring_taskManager}") final String issuer,
                      @Value("${jwt.expiration-sec:86400}") final Long expirationSec,
                      @Value("${jwt.clock-skew-sec:300}") final Long clockSkewSec,
                      @Value("${jwt.secret:secret}") final String secret) {
@@ -60,5 +60,5 @@ public class JWTHelper {
         }
         return claims;
     }
-
 }
+

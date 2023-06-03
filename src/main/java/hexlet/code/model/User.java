@@ -20,7 +20,6 @@ import java.util.Date;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static jakarta.persistence.TemporalType.TIMESTAMP;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
