@@ -30,7 +30,6 @@ repositories {
 dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'
-	testImplementation 'com.github.database-rider:rider-junit5:1.32.0'
 
 	annotationProcessor(
 			'org.projectlombok:lombok',
@@ -93,6 +92,14 @@ compileJava {
 
 test {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+	}
 }
 
 // Настраиваем таску diffChangeLog таким образом,
@@ -118,15 +125,42 @@ liquibase {
 	}
 }
 
-jacocoTestReport {
-	reports {
-		xml.required = true
-	}
-}
-
-
 tasks.named('test') {
 	useJUnitPlatform()
 }
-task stage(dependsOn: ['clean', 'installDist'])
+
+// Сборка фронтенда.
+// Выполняется только если ничего не изменилось.
+// *****************************************************************************
+frontend {
+	nodeVersion = '16.13.1'
+	installScript = 'install'
+	assembleScript = 'run build'
+	packageJsonDirectory = file("${projectDir}/frontend")
+}
+
+def configFrontendTasks = {
+	inputs.files(fileTree("$projectDir/frontend").exclude('build', 'node_modules'))
+	outputs.dir("$buildDir/resources/main/static")
+}
+
+assembleFrontend {
+	configure configFrontendTasks
+
+	doLast {
+		copy {
+			from "$projectDir/frontend/build"
+			into "$buildDir/resources/main/static"
+		}
+	}
+}
+
+installFrontend {
+	configure configFrontendTasks
+}
+
+processResources.dependsOn assembleFrontend
+// *****************************************************************************
+
+task stage(dependsOn: [installDist, clean])
 installDist.mustRunAfter clean

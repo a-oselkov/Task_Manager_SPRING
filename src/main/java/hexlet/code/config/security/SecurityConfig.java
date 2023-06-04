@@ -38,11 +38,6 @@ public class SecurityConfig {
 
     public static final List<GrantedAuthority> DEFAULT_AUTHORITIES = List.of(new SimpleGrantedAuthority("USER"));
 
-    //Note: Сейчас разрешены:
-    // - GET('/api/users')
-    // - POST('/api/users')
-    // - POST('/api/login')
-    // - все запросы НЕ начинающиеся на '/api'
     private final UserDetailsService userDetailsService;
     private final JWTHelper jwtHelper;
     private final String baseUrl;

@@ -2,23 +2,19 @@ package hexlet.code.service.impl;
 
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import static hexlet.code.config.security.SecurityConfig.DEFAULT_AUTHORITIES;
 
 @Service
-@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
@@ -28,7 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserDetails buildSpringUser(final User user) {
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("USER"));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),

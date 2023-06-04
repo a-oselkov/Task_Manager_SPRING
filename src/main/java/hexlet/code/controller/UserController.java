@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+
+import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("${base-url}" + UserController.USER_CONTROLLER_PATH)
+@RequestMapping("${base-url}" + USER_CONTROLLER_PATH)
 public class UserController {
     public static final String USER_CONTROLLER_PATH = "/users";
     private static final String  ID = "/{id}";
@@ -33,30 +38,33 @@ public class UserController {
 
     @GetMapping
     public List<User> getUsers() {
-        return userService.getAllUsers();
+        return userRepository.findAll();
     }
 
     @GetMapping(ID)
-    public User getUser(@PathVariable long id) {
-        return userService.getUserById(id);
+    public User getUser(@PathVariable final Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
     }
 
     @PostMapping
-    public User createUser(@RequestBody @Valid UserDto userDto) {
+    @ResponseStatus(CREATED)
+    public User createUser(@RequestBody @Valid final UserDto userDto) {
         return userService.createUser(userDto);
     }
 
     @PutMapping(ID)
     @PreAuthorize(ONLY_OWNER_BY_ID)
-    public User updateUser(@PathVariable long id, @RequestBody @Valid UserDto userDto) {
+    public User updateUser(@PathVariable final Long id,
+                           @RequestBody @Valid final UserDto userDto) {
         return userService.updateUser(id, userDto);
     }
 
     @DeleteMapping(ID)
     @PreAuthorize(ONLY_OWNER_BY_ID)
-    public String deleteUser(@PathVariable long id) {
-        userService.deleteUser(id);
-        return "User with " + id + " deleted";
+    public String deleteUser(@PathVariable final Long id) {
+        userRepository.deleteById(id);
+        return "User with id " + id + " deleted";
     }
 }
 

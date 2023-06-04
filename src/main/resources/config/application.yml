@@ -9,7 +9,7 @@ springdoc:
 
 spring:
   application:
-    name: taskManager
+    name: task_manager
 
   liquibase:
     enabled: true
