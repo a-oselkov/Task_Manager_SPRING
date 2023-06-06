@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,18 +32,18 @@ import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
-
+@EnableMethodSecurity(prePostEnabled = true)
+public class SecurityConfig  {
 
     public static final String LOGIN = "/login";
-
     public static final List<GrantedAuthority> DEFAULT_AUTHORITIES = List.of(new SimpleGrantedAuthority("USER"));
 
-    private final UserDetailsService userDetailsService;
-    private final JWTHelper jwtHelper;
-    private final String baseUrl;
-    private final RequestMatcher loginRequest;
     private final RequestMatcher publicUrls;
+    private final RequestMatcher loginRequest;
+    private final String baseUrl;
+    private final UserDetailsService userDetailsService;
+
+    private final JWTHelper jwtHelper;
 
     public SecurityConfig(@Value("${base-url}") final String baseUrl,
                           final UserDetailsService userDetailsService,
@@ -77,7 +78,6 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -106,5 +106,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
-

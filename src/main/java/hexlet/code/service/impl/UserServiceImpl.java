@@ -5,11 +5,11 @@ import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -33,8 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(final Long id, final UserDto userDto) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+        User user = userRepository.findById(id).get();
         String password = passwordEncoder.encode(userDto.getPassword());
 
         user.setFirstName(userDto.getFirstName());
@@ -42,5 +41,12 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setPassword(password);
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        return userRepository.findByEmail(username).get();
     }
 }

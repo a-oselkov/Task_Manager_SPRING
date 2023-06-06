@@ -50,4 +50,8 @@ public class User {
     @Temporal(TIMESTAMP)
     private Date createdAt;
 
+    //@Getter(AccessLevel.NONE)
+//    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+//    private List<Task> tasks;
+
 }

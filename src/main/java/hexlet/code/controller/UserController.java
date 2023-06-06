@@ -28,7 +28,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class UserController {
     public static final String USER_CONTROLLER_PATH = "/users";
     private static final String  ID = "/{id}";
-    private static final String ONLY_OWNER_BY_ID = """
+    private static final String ACCOUNT_OWNER = """
             @userRepository.findById(#id).get().getEmail() == authentication.getName()
         """;
     @Autowired
@@ -54,14 +54,14 @@ public class UserController {
     }
 
     @PutMapping(ID)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
+    @PreAuthorize(ACCOUNT_OWNER)
     public User updateUser(@PathVariable final Long id,
                            @RequestBody @Valid final UserDto userDto) {
         return userService.updateUser(id, userDto);
     }
 
     @DeleteMapping(ID)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
+    @PreAuthorize(ACCOUNT_OWNER)
     public String deleteUser(@PathVariable final Long id) {
         userRepository.deleteById(id);
         return "User with id " + id + " deleted";
