@@ -1,12 +1,14 @@
 package hexlet.code.controller;
 
+import com.querydsl.core.types.Predicate;
 import hexlet.code.dto.TaskDto;
 import hexlet.code.model.Task;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.service.TaskService;
-import hexlet.code.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,32 +19,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("${base-url}" + TASK_CONTROLLER_PATH)
 public class TaskController {
     public static final String TASK_CONTROLLER_PATH = "/tasks";
-    private static final String  ID = "/{id}";
+    private static final String ID = "/{id}";
     private static final String TASK_OWNER =
             "@taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()";
 
-
-    @Autowired
-    private TaskService taskService;
-
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private UserService userService;
+    private final TaskService taskService;
+    private final TaskRepository taskRepository;
 
     @GetMapping
-    public List<Task> getTasks() {
-        return taskRepository.findAll();
+    public Iterable<Task> getAllTasks(@QuerydslPredicate(root = Task.class) final Predicate predicate) {
+        return taskRepository.findAll(predicate);
     }
 
     @GetMapping(ID)
@@ -65,8 +60,7 @@ public class TaskController {
 
     @DeleteMapping(ID)
     @PreAuthorize(TASK_OWNER)
-    public String deleteTask(@PathVariable final Long id) {
-       taskRepository.deleteById(id);
-        return "Task with id " + id + " deleted";
+    public void deleteTask(@PathVariable final Long id) {
+        taskRepository.deleteById(id);
     }
 }

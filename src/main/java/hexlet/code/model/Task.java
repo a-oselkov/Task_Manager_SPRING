@@ -45,8 +45,8 @@ public class Task {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name="task_label",
-            joinColumns=  @JoinColumn(name="task_id", referencedColumnName="id"),
-            inverseJoinColumns= @JoinColumn(name="label_id", referencedColumnName="id") )
+            joinColumns =  @JoinColumn(name ="task_id", referencedColumnName ="id"),
+            inverseJoinColumns = @JoinColumn(name ="label_id", referencedColumnName ="id") )
     private List<Label> labels;
 
     @CreationTimestamp

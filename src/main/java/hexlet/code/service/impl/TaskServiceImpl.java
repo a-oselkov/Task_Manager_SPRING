@@ -9,9 +9,9 @@ import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
-import hexlet.code.service.LabelService;
 import hexlet.code.service.TaskService;
 import hexlet.code.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,20 +20,14 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
-    private TaskRepository taskRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TaskStatusRepository taskStatusRepository;
-    @Autowired
-    private LabelRepository labelRepository;
-    @Autowired
-    private LabelService labelService;
+    private final TaskRepository taskRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final TaskStatusRepository taskStatusRepository;
+    private final LabelRepository labelRepository;
 
     @Override
     public Task createTask(final TaskDto taskDto) {

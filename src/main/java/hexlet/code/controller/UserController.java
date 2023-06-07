@@ -5,6 +5,7 @@ import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +25,7 @@ import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("${base-url}" + USER_CONTROLLER_PATH)
 public class UserController {
     public static final String USER_CONTROLLER_PATH = "/users";
@@ -31,10 +33,9 @@ public class UserController {
     private static final String ACCOUNT_OWNER = """
             @userRepository.findById(#id).get().getEmail() == authentication.getName()
         """;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserService userService;
+    private final UserRepository userRepository;
 
     @GetMapping
     public List<User> getUsers() {
@@ -62,9 +63,8 @@ public class UserController {
 
     @DeleteMapping(ID)
     @PreAuthorize(ACCOUNT_OWNER)
-    public String deleteUser(@PathVariable final Long id) {
+    public void deleteUser(@PathVariable final Long id) {
         userRepository.deleteById(id);
-        return "User with id " + id + " deleted";
     }
 }
 

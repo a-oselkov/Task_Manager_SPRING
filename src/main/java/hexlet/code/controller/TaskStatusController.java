@@ -5,6 +5,7 @@ import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.service.TaskStatusService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,14 +25,12 @@ import static hexlet.code.controller.TaskStatusController.TASK_STATUS_CONTROLLER
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("${base-url}" + TASK_STATUS_CONTROLLER_PATH)
 public class TaskStatusController {
 
-    @Autowired
-    private TaskStatusRepository taskStatusRepository;
-    @Autowired
-    private TaskStatusService taskStatusService;
-
+    private final TaskStatusRepository taskStatusRepository;
+    private final TaskStatusService taskStatusService;
     public static final String TASK_STATUS_CONTROLLER_PATH = "/statuses";
     private static final String ID = "/{id}";
 
@@ -62,8 +61,7 @@ public class TaskStatusController {
 
     @DeleteMapping(ID)
     @PreAuthorize("hasAuthority('USER')")
-    public String deleteTaskStatus(@PathVariable final Long id) {
+    public void deleteTaskStatus(@PathVariable final Long id) {
         taskStatusRepository.deleteById(id);
-        return "Status with id " + id + " deleted";
     }
 }
