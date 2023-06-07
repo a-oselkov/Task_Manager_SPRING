@@ -1,13 +1,6 @@
 package hexlet.code.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static jakarta.persistence.TemporalType.TIMESTAMP;
@@ -45,11 +39,18 @@ public class Task {
     @JoinColumn(name = "author_id")
     private User author;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "executor_id")
     private User executor;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name="task_label",
+            joinColumns=  @JoinColumn(name="task_id", referencedColumnName="id"),
+            inverseJoinColumns= @JoinColumn(name="label_id", referencedColumnName="id") )
+    private List<Label> labels;
 
     @CreationTimestamp
     @Temporal(TIMESTAMP)
     private Date createdAt;
+
 }

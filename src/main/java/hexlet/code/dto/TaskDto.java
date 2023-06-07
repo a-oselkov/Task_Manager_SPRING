@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class TaskDto {
     @NotBlank
@@ -15,5 +17,7 @@ public class TaskDto {
     private Long taskStatusId;
 
     private Long executorId;
+
+    private List<Long> labelIds;
 
 }

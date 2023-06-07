@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static hexlet.code.controller.TaskController.TASK_PATH;
+import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 
 @RestController
-@RequestMapping("${base-url}" + TASK_PATH)
+@RequestMapping("${base-url}" + TASK_CONTROLLER_PATH)
 public class TaskController {
-    public static final String TASK_PATH = "/tasks";
+    public static final String TASK_CONTROLLER_PATH = "/tasks";
     private static final String  ID = "/{id}";
     private static final String TASK_OWNER =
             "@taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()";
@@ -57,7 +57,7 @@ public class TaskController {
         return taskService.createTask(taskDto);
     }
 
-    @PutMapping
+    @PutMapping(ID)
     @PreAuthorize("hasAuthority('USER')")
     public Task updateTask(@PathVariable final Long id, @RequestBody @Valid final TaskDto taskDto) {
         return taskService.updateTask(id, taskDto);
