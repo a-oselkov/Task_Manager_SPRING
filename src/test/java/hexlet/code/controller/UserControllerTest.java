@@ -1,181 +1,176 @@
-//package hexlet.code.controller;
-//
-//import com.github.database.rider.core.api.dataset.DataSet;
-//import com.github.database.rider.junit5.api.DBRider;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.http.MediaType;
-//import org.springframework.mock.web.MockHttpServletResponse;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-//
-//@SpringBootTest
-//// При тестировании можно вообще не запускать сервер
-//// Spring будет обрабатывать HTTP запрос и направлять его в контроллер
-//// Код вызывается точно так же, как если бы он обрабатывал настоящий запрос
-//// Такие тесты обходятся дешевле в плане ресурсов
-//// Для этого нужно внедрить MockMvc
-//
-//// BEGIN
-//@AutoConfigureMockMvc
-//// END
-//
-//// Чтобы исключить влияние тестов друг на друга,
-//// каждый тест будет выполняться в транзакции.
-//// После завершения теста транзакция автоматически откатывается
-//@Transactional
-//// Для наполнения БД данными перед началом тестирования
-//// воспользуемся возможностями библиотеки Database Rider
-//@DBRider
-//// Файл с данными для тестов (фикстуры)
-//@DataSet("users.yml")
-//public class UserControllerTest {
-//
-//    // Автоматическое создание экземпляра класса MockMvc
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @Test
-//    void testRootPage() throws Exception {
-//        // Выполняем запрос и получаем ответ
-//        MockHttpServletResponse response = mockMvc
-//                // Выполняем GET запрос по указанному адресу
-//                .perform(get("/welcome"))
-//                // Получаем результат MvcResult
-//                .andReturn()
-//                // Получаем ответ MockHttpServletResponse из класса MvcResult
-//                .getResponse();
-//
-//        // Проверяем статус ответа
-//        assertThat(response.getStatus()).isEqualTo(200);
-//        // Проверяем, что ответ содержит определенный текст
-//        assertThat(response.getContentAsString()).contains("Welcome to Spring");
-//    }
-//
-//    @Test
-//    void testGetUsers() throws Exception {
-//        MockHttpServletResponse response = mockMvc
-//                .perform(get("/api/users"))
-//                .andReturn()
-//                .getResponse();
-//
-//        assertThat(response.getStatus()).isEqualTo(200);
-//        // Проверяем, что тип содержимого в ответе JSON
-//        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON.toString());
-//        // Проверяем, что тело ответа содержит данные сущностей
-//        assertThat(response.getContentAsString()).contains("John", "Smith");
-//        assertThat(response.getContentAsString()).contains("Jack", "Doe");
-//    }
-//
-//    @Test
-//    void testGetUser() throws Exception {
-//        MockHttpServletResponse response = mockMvc
-//                .perform(get("/api/users/1"))
-//                .andReturn()
-//                .getResponse();
-//
-//        assertThat(response.getStatus()).isEqualTo(200);
-//        // Проверяем, что тип содержимого в ответе JSON
-//        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON.toString());
-//        // Проверяем, что тело ответа содержит данные сущностей
-//        assertThat(response.getContentAsString()).contains("John", "Smith");
-//    }
-//
-//    @Test
-//    void testCreateUser() throws Exception {
-//        MockHttpServletResponse responsePost = mockMvc
-//                .perform(
-//                        // Выполняем POST-запрос
-//                        post("/api/users")
-//                                // Устанавливаем тип содержимого тела запроса
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                // Добавляем содержимое тела
-//                                .content("{\"firstName\": \"Jackson\", \"lastName\": \"Bind\", "
-//                                        + "\"email\": \"jackson@gmail.com\", \"password\": \"12345\"}")
-//                )
-//                .andReturn()
-//                .getResponse();
-//
-//        assertThat(responsePost.getStatus()).isEqualTo(200);
-//
-//        // Проверяем, что сущность добавилась в базу
-//        // Выполняем GET-запрос на страницу вывода всех сущностей
-//        MockHttpServletResponse response = mockMvc
-//                .perform(get("/api/users"))
-//                .andReturn()
-//                .getResponse();
-//
-//        assertThat(response.getStatus()).isEqualTo(200);
-//        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
-//        // Проверяем, что созданная сущность появилась в базе
-//        assertThat(response.getContentAsString()).contains("Jackson", "Bind");
-//    }
-//
-//    // BEGIN
-//
-//    @Test
-//    void testUpdateUser() throws Exception {
-//        long id = 1;
-//        MockHttpServletResponse responsePost = mockMvc
-//                .perform(
-//                        // Выполняем PUT-запрос
-//                        put("/api/users/" + id)
-//                                // Устанавливаем тип содержимого тела запроса
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                // Добавляем содержимое тела
-//                                .content("{\"firstName\": \"John\", \"lastName\": \"S\", "
-//                                        + "\"email\": \"john@gmail.com\", \"password\": \"12345\"}")
-//                )
-//                .andReturn()
-//                .getResponse();
-//
-//        assertThat(responsePost.getStatus()).isEqualTo(200);
-//
-//        // Проверяем, что сущность была обновлена
-//        // Выполняем GET-запрос на страницу вывода всех сущностей
-//        MockHttpServletResponse response = mockMvc
-//                .perform(get("/api/users/" + id))
-//                .andReturn()
-//                .getResponse();
-//
-//        assertThat(response.getStatus()).isEqualTo(200);
-//        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON.toString());
-//        // Проверяем, что созданная сущность появилась в базе
-//        assertThat(response.getContentAsString()).contains("John", "S");
-//    }
-//
-//    @Test
-//    void testDeletePerson() throws Exception {
-//        long id = 1;
-//        MockHttpServletResponse responsePost = mockMvc
-//                .perform(
-//                        // Выполняем DELETE-запрос
-//                        delete("/api/users/" + id)
-//                )
-//                .andReturn()
-//                .getResponse();
-//
-//        assertThat(responsePost.getStatus()).isEqualTo(200);
-//
-//        // Проверяем, что сущность была удалена из базы
-//        // Выполняем GET-запрос на страницу вывода всех сущностей
-//        MockHttpServletResponse response = mockMvc
-//                .perform(get("/api/users"))
-//                .andReturn()
-//                .getResponse();
-//
-//        assertThat(response.getStatus()).isEqualTo(200);
-//        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON.toString());
-//        // Проверяем, что сущности нет
-//        assertThat(response.getContentAsString()).doesNotContain("John", "Smith");
-//    }
-//    // END
-//}
+package hexlet.code.controller;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import hexlet.code.config.SpringConfigTests;
+import hexlet.code.dto.LoginDto;
+import hexlet.code.dto.UserDto;
+import hexlet.code.model.User;
+import hexlet.code.repository.UserRepository;
+import hexlet.code.utils.TestUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+
+import java.util.List;
+
+import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
+import static hexlet.code.config.security.SecurityConfig.LOGIN;
+import static hexlet.code.controller.UserController.ID;
+import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@AutoConfigureMockMvc
+@ActiveProfiles(TEST_PROFILE)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigTests.class)
+public class UserControllerTest {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TestUtils utils;
+
+    @AfterEach
+    public void clear() {
+        utils.tearDown();
+    }
+
+    @Test
+    public void registration() throws Exception {
+        assertThat(userRepository.count()).isEqualTo(0);
+        utils.regDefaultUser().andExpect(status().isCreated());
+        assertThat(userRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    public void getUserById() throws Exception {
+        utils.regDefaultUser();
+        final User expectedUser = userRepository.findAll().get(0);
+        final MockHttpServletResponse response = utils.perform(
+                get(USER_CONTROLLER_PATH + ID, expectedUser.getId()),
+                expectedUser.getEmail()
+                ).andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        final User user = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
+        });
+
+        assertThat(expectedUser.getId()).isEqualTo(user.getId());
+        assertThat(expectedUser.getFirstName()).isEqualTo(user.getFirstName());
+        assertThat(expectedUser.getLastName()).isEqualTo(user.getLastName());
+        assertThat(expectedUser.getEmail()).isEqualTo(user.getEmail());
+    }
+
+    @Test
+    public void getAllUsers() throws Exception {
+        utils.regDefaultUser();
+        final var response = utils.perform(get(USER_CONTROLLER_PATH))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        final List<User> users = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
+        });
+
+        assertThat(users).hasSize(1);
+    }
+
+    @Test
+    public void twiceRegTheSameUserFail() throws Exception {
+        utils.regDefaultUser().andExpect(status().isCreated());
+        utils.regDefaultUser().andExpect(status().is(422));
+        assertThat(userRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    public void login() throws Exception {
+        utils.regDefaultUser();
+        final LoginDto loginDto = new LoginDto(
+                utils.getTestRegistrationDto().getEmail(),
+                utils.getTestRegistrationDto().getPassword()
+        );
+        final MockHttpServletRequestBuilder loginRequest = post(LOGIN)
+                .content(TestUtils.asJson(loginDto))
+                .contentType(APPLICATION_JSON);
+        utils.perform(loginRequest).andExpect(status().isOk());
+    }
+
+    @Test
+    public void loginFail() throws Exception {
+        final LoginDto loginDto = new LoginDto(
+                utils.getTestRegistrationDto().getEmail(),
+                utils.getTestRegistrationDto().getPassword()
+        );
+        final var loginRequest = post(LOGIN).content(TestUtils.asJson(loginDto)).contentType(APPLICATION_JSON);
+        utils.perform(loginRequest).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void updateUser() throws Exception {
+        utils.regDefaultUser();
+
+        final Long userId = userRepository.findByEmail(TestUtils.TEST_USERNAME).get().getId();
+
+        final var userDto = new UserDto("new last name", "new name",
+                 TestUtils.TEST_USERNAME_2, "new pwd");
+
+        final var updateRequest = put(USER_CONTROLLER_PATH + ID, userId)
+                .content(TestUtils.asJson(userDto))
+                .contentType(APPLICATION_JSON);
+
+        utils.perform(updateRequest, TestUtils.TEST_USERNAME).andExpect(status().isOk());
+
+        assertTrue(userRepository.existsById(userId));
+        assertNull(userRepository.findByEmail(TestUtils.TEST_USERNAME).orElse(null));
+        assertNotNull(userRepository.findByEmail(TestUtils.TEST_USERNAME_2).orElse(null));
+    }
+
+    @Test
+    public void deleteUser() throws Exception {
+        utils.regDefaultUser();
+
+        final Long userId = userRepository.findByEmail(TestUtils.TEST_USERNAME).get().getId();
+
+        utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TestUtils.TEST_USERNAME)
+                .andExpect(status().isOk());
+
+        assertThat(userRepository.count()).isEqualTo(0);
+    }
+
+    @Test
+    public void deleteUserFails() throws Exception {
+        utils.regDefaultUser();
+        utils.regUser(new UserDto(
+                "lname",
+                "fname",
+                TestUtils.TEST_USERNAME_2,
+                "pwd"
+        ));
+
+        final Long userId = userRepository.findByEmail(TestUtils.TEST_USERNAME).get().getId();
+
+        utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TestUtils.TEST_USERNAME_2)
+                .andExpect(status().isForbidden());
+
+        assertThat(userRepository.count()).isEqualTo(2);
+    }
+}

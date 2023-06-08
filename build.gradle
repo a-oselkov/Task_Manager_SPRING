@@ -6,11 +6,8 @@ plugins {
 	id 'com.adarshr.test-logger' version '2.1.1'
 	id 'com.github.ben-manes.versions' version '0.38.0'
 	id 'org.liquibase.gradle' version '2.2.0'
-//	// Плагины для swagger
-//	// Позволяют получить сгенерированную документацию по API в виде json файла
 	id 'org.springdoc.openapi-gradle-plugin' version '1.3.3'
 	id 'com.github.johnrengelman.processes' version '0.5.0'
-//	// Сборщик фронтенда
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'jacoco'
 }
@@ -45,12 +42,7 @@ dependencies {
 			'org.springframework.boot:spring-boot-starter-validation',
 			'org.springframework.boot:spring-boot-starter-security',
 			'io.jsonwebtoken:jjwt:0.9.1',
-//			'org.mapstruct:mapstruct:1.5.5.Final',
-//			'org.mapstruct:mapstruct-processor:1.5.5.Final',
-			// Зависимость для swagger
-			// Позволяет сгенерировать и проматривать интерактивную документацию по API
 			'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0',
-//			'org.springdoc:springdoc-openapi-ui:1.7.0', //1.5.12
 			'org.liquibase:liquibase-core',
 			'com.querydsl:querydsl-jpa:5.0.0:jakarta',
 			'com.rollbar:rollbar-spring-boot-webmvc:1.10.0'
@@ -102,24 +94,17 @@ jacocoTestReport {
 	}
 }
 
-// Настраиваем таску diffChangeLog таким образом,
-// чтобы миграции учитывали изменения в моделях
 diffChangelog {
 	dependsOn compileJava
 }
 
-// Настраиваем Liquibase
 liquibase {
 	activities {
 		main {
-			// Указываем путь, по которому будет сгенерирован файл миграции
 			changelogFile 'src/main/resources/db/changelog/db.changelog-master.yaml'
 			url 'jdbc:h2:./task_manager'
 			referenceUrl 'hibernate:spring:hexlet.code.model.' +
-					// Указываем диалект
 					'?dialect=org.hibernate.dialect.H2Dialect' +
-					// Указываем правила именования таблиц и столбцов,
-					// чтобы они соответствовали правилам Spring
 					'&hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy'
 		}
 	}
@@ -129,9 +114,6 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-// Сборка фронтенда.
-// Выполняется только если ничего не изменилось.
-// *****************************************************************************
 frontend {
 	nodeVersion = '16.13.1'
 	installScript = 'install'
@@ -160,7 +142,6 @@ installFrontend {
 }
 
 processResources.dependsOn assembleFrontend
-// *****************************************************************************
 
 task stage(dependsOn: [installDist, clean])
 installDist.mustRunAfter clean

@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 1686096147821-1
+    id: 1686258312186-1
     author: sasha (generated)
     changes:
     - createTable:
@@ -21,7 +21,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: labels
 - changeSet:
-    id: 1686096147821-2
+    id: 1686258312186-2
     author: sasha (generated)
     changes:
     - createTable:
@@ -38,7 +38,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: task_label
 - changeSet:
-    id: 1686096147821-3
+    id: 1686258312186-3
     author: sasha (generated)
     changes:
     - createTable:
@@ -59,7 +59,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: task_statuses
 - changeSet:
-    id: 1686096147821-4
+    id: 1686258312186-4
     author: sasha (generated)
     changes:
     - createTable:
@@ -92,7 +92,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: tasks
 - changeSet:
-    id: 1686096147821-5
+    id: 1686258312186-5
     author: sasha (generated)
     changes:
     - createTable:
@@ -122,7 +122,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: users
 - changeSet:
-    id: 1686096147821-6
+    id: 1686258312186-6
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
@@ -135,7 +135,7 @@ databaseChangeLog:
         referencedTableName: tasks
         validate: true
 - changeSet:
-    id: 1686096147821-7
+    id: 1686258312186-7
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
@@ -148,7 +148,7 @@ databaseChangeLog:
         referencedTableName: task_statuses
         validate: true
 - changeSet:
-    id: 1686096147821-8
+    id: 1686258312186-8
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
@@ -161,7 +161,7 @@ databaseChangeLog:
         referencedTableName: users
         validate: true
 - changeSet:
-    id: 1686096147821-9
+    id: 1686258312186-9
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
@@ -174,7 +174,7 @@ databaseChangeLog:
         referencedTableName: labels
         validate: true
 - changeSet:
-    id: 1686096147821-10
+    id: 1686258312186-10
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
