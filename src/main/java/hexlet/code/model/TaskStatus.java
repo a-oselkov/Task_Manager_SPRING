@@ -36,7 +36,4 @@ public class TaskStatus {
     @CreationTimestamp
     @Temporal(TIMESTAMP)
     private Date createdAt;
-
-//    @OneToMany(mappedBy = "taskStatus")
-//    private List<Task> tasks;
 }

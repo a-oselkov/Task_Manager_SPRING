@@ -28,7 +28,7 @@ import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 @RequestMapping("${base-url}" + TASK_CONTROLLER_PATH)
 public class TaskController {
     public static final String TASK_CONTROLLER_PATH = "/tasks";
-    private static final String ID = "/{id}";
+    public static final String ID = "/{id}";
     private static final String TASK_OWNER =
             "@taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()";
 

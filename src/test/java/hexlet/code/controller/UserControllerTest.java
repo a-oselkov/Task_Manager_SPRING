@@ -24,9 +24,9 @@ import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
 import static hexlet.code.config.security.SecurityConfig.LOGIN;
 import static hexlet.code.controller.UserController.ID;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
+import static hexlet.code.utils.TestUtils.TEST_USERNAME;
+import static hexlet.code.utils.TestUtils.TEST_USERNAME_NEW;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -58,6 +58,11 @@ public class UserControllerTest {
         assertThat(userRepository.count()).isEqualTo(0);
         utils.regDefaultUser().andExpect(status().isCreated());
         assertThat(userRepository.count()).isEqualTo(1);
+
+        final User user = userRepository.findByEmail(TEST_USERNAME).get();
+        assertThat(user.getFirstName()).isEqualTo(utils.getTestRegistrationDto().getFirstName());
+        assertThat(user.getLastName()).isEqualTo(utils.getTestRegistrationDto().getLastName());
+        assertThat(user.getEmail()).isEqualTo(utils.getTestRegistrationDto().getEmail());
     }
 
     @Test
@@ -67,7 +72,8 @@ public class UserControllerTest {
         final MockHttpServletResponse response = utils.perform(
                 get(USER_CONTROLLER_PATH + ID, expectedUser.getId()),
                 expectedUser.getEmail()
-                ).andExpect(status().isOk())
+                )
+                .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
 
@@ -120,7 +126,9 @@ public class UserControllerTest {
                 utils.getTestRegistrationDto().getEmail(),
                 utils.getTestRegistrationDto().getPassword()
         );
-        final var loginRequest = post(LOGIN).content(TestUtils.asJson(loginDto)).contentType(APPLICATION_JSON);
+        final MockHttpServletRequestBuilder loginRequest = post(LOGIN)
+                .content(TestUtils.asJson(loginDto))
+                .contentType(APPLICATION_JSON);
         utils.perform(loginRequest).andExpect(status().isUnauthorized());
     }
 
@@ -128,47 +136,49 @@ public class UserControllerTest {
     public void updateUser() throws Exception {
         utils.regDefaultUser();
 
-        final Long userId = userRepository.findByEmail(TestUtils.TEST_USERNAME).get().getId();
+        final User oldUser = userRepository.findByEmail(TEST_USERNAME).get();
+        final Long userId = oldUser.getId();
 
-        final var userDto = new UserDto("new last name", "new name",
-                 TestUtils.TEST_USERNAME_2, "new pwd");
+        final UserDto userDto = new UserDto("newName", "newLastName",
+                TEST_USERNAME_NEW, "newPwd");
 
-        final var updateRequest = put(USER_CONTROLLER_PATH + ID, userId)
+        final MockHttpServletRequestBuilder updateRequest = put(USER_CONTROLLER_PATH + ID, userId)
                 .content(TestUtils.asJson(userDto))
                 .contentType(APPLICATION_JSON);
+        utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
 
-        utils.perform(updateRequest, TestUtils.TEST_USERNAME).andExpect(status().isOk());
-
+        final User newUser = userRepository.findByEmail(TEST_USERNAME_NEW).get();
         assertTrue(userRepository.existsById(userId));
-        assertNull(userRepository.findByEmail(TestUtils.TEST_USERNAME).orElse(null));
-        assertNotNull(userRepository.findByEmail(TestUtils.TEST_USERNAME_2).orElse(null));
+        assertThat(newUser.getFirstName()).isEqualTo(userDto.getFirstName());
+        assertThat(newUser.getLastName()).isEqualTo(userDto.getLastName());
+        assertThat(newUser.getEmail()).isEqualTo(userDto.getEmail());
     }
 
     @Test
     public void deleteUser() throws Exception {
         utils.regDefaultUser();
 
-        final Long userId = userRepository.findByEmail(TestUtils.TEST_USERNAME).get().getId();
+        final Long userId = userRepository.findByEmail(TEST_USERNAME).get().getId();
 
-        utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TestUtils.TEST_USERNAME)
+        utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME)
                 .andExpect(status().isOk());
 
         assertThat(userRepository.count()).isEqualTo(0);
     }
 
     @Test
-    public void deleteUserFails() throws Exception {
+    public void deleteUserByNotOwner() throws Exception {
         utils.regDefaultUser();
         utils.regUser(new UserDto(
                 "lname",
                 "fname",
-                TestUtils.TEST_USERNAME_2,
+                TEST_USERNAME_NEW,
                 "pwd"
         ));
 
-        final Long userId = userRepository.findByEmail(TestUtils.TEST_USERNAME).get().getId();
+        final Long userId = userRepository.findByEmail(TEST_USERNAME).get().getId();
 
-        utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TestUtils.TEST_USERNAME_2)
+        utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME_NEW)
                 .andExpect(status().isForbidden());
 
         assertThat(userRepository.count()).isEqualTo(2);

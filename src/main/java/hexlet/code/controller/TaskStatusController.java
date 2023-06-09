@@ -21,18 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static hexlet.code.controller.TaskStatusController.TASK_STATUS_CONTROLLER_PATH;
+import static hexlet.code.controller.TaskStatusController.TASKSTATUS_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@RequestMapping("${base-url}" + TASK_STATUS_CONTROLLER_PATH)
+@RequestMapping("${base-url}" + TASKSTATUS_CONTROLLER_PATH)
 public class TaskStatusController {
 
     private final TaskStatusRepository taskStatusRepository;
     private final TaskStatusService taskStatusService;
-    public static final String TASK_STATUS_CONTROLLER_PATH = "/statuses";
-    private static final String ID = "/{id}";
+    public static final String TASKSTATUS_CONTROLLER_PATH = "/statuses";
+    public static final String ID = "/{id}";
 
     @GetMapping
     public List<TaskStatus> getTaskStatuses() {
