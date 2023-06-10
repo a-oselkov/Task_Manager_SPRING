@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.component.JWTHelper;
+import hexlet.code.dto.LabelDto;
 import hexlet.code.dto.TaskStatusDto;
 import hexlet.code.dto.UserDto;
 import hexlet.code.model.User;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import java.util.Map;
 
+import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
 import static hexlet.code.controller.TaskStatusController.TASKSTATUS_CONTROLLER_PATH;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -42,9 +44,13 @@ public class TestUtils {
     private JWTHelper jwtHelper;
 
     public static final String TEST_USERNAME = "email@email.com";
-    public static final String TEST_USERNAME_NEW = "email2@email.com";
+    public static final String TEST_USERNAME_NEW = "email_new@email.com";
     public static final String TEST_TASKSTATUS = "Done";
     public static final String TEST_TASKSTATUS_UPD = "In progress";
+
+    public static final String TEST_LABEL = "java";
+    public static final String TEST_LABEL_UPD = "python";
+
 
     private final UserDto testUserDto = new UserDto(
             "fname",
@@ -55,6 +61,10 @@ public class TestUtils {
 
     private final TaskStatusDto testTaskStatusDto = new TaskStatusDto(
             TEST_TASKSTATUS
+    );
+
+    private final LabelDto testLabelDto = new LabelDto(
+            TEST_LABEL
     );
 
     public TaskStatusDto getTestTaskStatusDto() {
@@ -76,7 +86,7 @@ public class TestUtils {
         return userRepository.findByEmail(email).get();
     }
 
-    //User ---------
+    // for User ---------
 
     public ResultActions regDefaultUser() throws Exception {
         return regUser(testUserDto);
@@ -89,7 +99,8 @@ public class TestUtils {
         return perform(request);
     }
 
-    //TaskStatus ---------
+    // for TaskStatus ---------
+
     public ResultActions regDefaultTaskStatusAuthorized() throws Exception {
         return regTaskStatusAuthorized(testTaskStatusDto, TEST_USERNAME);
     }
@@ -105,7 +116,27 @@ public class TestUtils {
                 .contentType(APPLICATION_JSON);
         return perform(request);
     }
-    // ----------
+
+    // for Label ---------
+
+    public ResultActions regDefaultLabelAuthorized() throws Exception {
+        return regLabelAuthorized(testLabelDto, TEST_LABEL);
+    }
+    public ResultActions regLabelAuthorized(final LabelDto dto, String byUser) throws Exception {
+        final MockHttpServletRequestBuilder request = post(LABEL_CONTROLLER_PATH)
+                .content(asJson(dto))
+                .contentType(APPLICATION_JSON);
+        return perform(request, byUser);
+    }
+    public ResultActions regLabelNotAuthorized() throws Exception {
+        final MockHttpServletRequestBuilder request = post(LABEL_CONTROLLER_PATH)
+                .content(asJson(testLabelDto))
+                .contentType(APPLICATION_JSON);
+        return perform(request);
+    }
+
+    // Common ---------
+
     public ResultActions perform(final MockHttpServletRequestBuilder request, final String byUser) throws Exception {
         final String token = jwtHelper.expiring(Map.of("username", byUser));
         request.header(AUTHORIZATION, token);

@@ -44,7 +44,6 @@ public class UserControllerTest {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private TestUtils utils;
 
@@ -89,7 +88,7 @@ public class UserControllerTest {
     @Test
     public void getAllUsers() throws Exception {
         utils.regDefaultUser();
-        final var response = utils.perform(get(USER_CONTROLLER_PATH))
+        final MockHttpServletResponse response = utils.perform(get(USER_CONTROLLER_PATH))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
