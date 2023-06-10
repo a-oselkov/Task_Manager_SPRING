@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static jakarta.persistence.TemporalType.TIMESTAMP;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,6 +38,7 @@ public class Task {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
     private String description;
 

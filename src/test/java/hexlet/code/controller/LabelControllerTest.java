@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.config.SpringConfigTests;
 import hexlet.code.dto.LabelDto;
 import hexlet.code.model.Label;
-import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.utils.TestUtils;
@@ -23,8 +22,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.List;
 
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
-import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
 import static hexlet.code.controller.LabelController.ID;
+import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.TEST_LABEL;
 import static hexlet.code.utils.TestUtils.TEST_LABEL_UPD;
@@ -105,14 +104,14 @@ class LabelControllerTest {
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
-        TaskStatus taskStatus = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
+        Label label = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
         });
-        assertThat(taskStatus.getId()).isEqualTo(expectedLabel.getId());
-        assertThat(taskStatus.getName()).isEqualTo(expectedLabel.getName());
+        assertThat(label.getId()).isEqualTo(expectedLabel.getId());
+        assertThat(label.getName()).isEqualTo(expectedLabel.getName());
     }
 
     @Test
-    public void updateTaskStatus() throws Exception {
+    public void updateLabelStatus() throws Exception {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label oldLabel = labelRepository.findAll().get(0);
         final LabelDto updLabelDto = new LabelDto(TEST_LABEL_UPD);
@@ -132,7 +131,7 @@ class LabelControllerTest {
     }
 
     @Test
-    public void deleteTaskStatus() throws Exception {
+    public void deleteLabelStatus() throws Exception {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label label = labelRepository.findAll().get(0);
         utils.perform(delete(LABEL_CONTROLLER_PATH + ID, label.getId()),

@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.NoSuchElementException;
 
 import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -47,6 +49,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(CREATED)
     @PreAuthorize("hasAuthority('USER')")
     public Task createTask(@RequestBody @Valid final TaskDto taskDto) {
         return taskService.createTask(taskDto);

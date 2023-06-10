@@ -88,10 +88,10 @@ public class TestUtils {
     }
 
     public void tearDown() {
-        userRepository.deleteAll();
         taskRepository.deleteAll();
         taskStatusRepository.deleteAll();
         labelRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     public ResultActions regByAuthorizedUser(final Object dto,

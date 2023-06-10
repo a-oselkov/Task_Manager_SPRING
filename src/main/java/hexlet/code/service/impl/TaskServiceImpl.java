@@ -31,37 +31,31 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task createTask(final TaskDto taskDto) {
-        Task task = new Task();
-        User author = userService.getCurrentUser();
-        TaskStatus taskStatus = taskStatusRepository.findById(taskDto.getTaskStatusId()).get();
-        User executor = userRepository.findById(taskDto.getExecutorId()).get();
-        List<Label> labels = taskDto.getLabelIds() == null ? null
-                : labelRepository.findAllById(taskDto.getLabelIds());
-
-        task.setName(taskDto.getName());
-        task.setDescription(taskDto.getDescription());
-        task.setAuthor(author);
-        task.setTaskStatus(taskStatus);
-        task.setExecutor(executor);
-        task.setLabels(labels);
+        Task task = fromDto(taskDto);
         return taskRepository.save(task);
     }
 
     @Override
     public Task updateTask(final Long id, final TaskDto taskDto) {
-        Task task = taskRepository.findById(id).get();
-        User author = task.getAuthor();
+        Task task = fromDto(taskDto);
+        task.setId(id);
+        return taskRepository.save(task);
+    }
+
+    private Task fromDto(TaskDto taskDto) {
+        final User author = userService.getCurrentUser();
         TaskStatus taskStatus = taskStatusRepository.findById(taskDto.getTaskStatusId()).get();
         User executor = userRepository.findById(taskDto.getExecutorId()).get();
         List<Label> labels = taskDto.getLabelIds() == null ? null
                 : labelRepository.findAllById(taskDto.getLabelIds());
 
-        task.setName(taskDto.getName());
-        task.setDescription(taskDto.getDescription());
-        task.setAuthor(author);
-        task.setTaskStatus(taskStatus);
-        task.setExecutor(executor);
-        task.setLabels(labels);
-        return taskRepository.save(task);
+        return Task.builder()
+                .name(taskDto.getName())
+                .description(taskDto.getDescription())
+                .taskStatus(taskStatus)
+                .author(author)
+                .executor(executor)
+                .labels(labels)
+                .build();
     }
 }
