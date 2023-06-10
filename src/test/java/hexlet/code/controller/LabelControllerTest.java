@@ -25,6 +25,7 @@ import java.util.List;
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
 import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
 import static hexlet.code.controller.LabelController.ID;
+import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.TEST_LABEL;
 import static hexlet.code.utils.TestUtils.TEST_LABEL_UPD;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
@@ -52,7 +53,7 @@ class LabelControllerTest {
 
     @BeforeEach
     public void regUser() throws Exception {
-        utils.regDefaultUser();
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
     }
 
     @AfterEach
@@ -63,7 +64,8 @@ class LabelControllerTest {
     @Test
     public void createLabelNotAuthorized() throws Exception {
         assertThat(labelRepository.count()).isEqualTo(0);
-        utils.regLabelNotAuthorized().andExpect(status().isForbidden());
+        utils.regByNotAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH)
+                .andExpect(status().isForbidden());
         assertThat(labelRepository.count()).isEqualTo(0);
     }
 
@@ -71,7 +73,8 @@ class LabelControllerTest {
     public void createLabelAuthorized() throws Exception {
         assertThat(labelRepository.count()).isEqualTo(0);
 
-        utils.regDefaultLabelAuthorized().andExpect(status().isCreated());
+        utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH)
+                .andExpect(status().isCreated());
 
         final Label label = labelRepository.findAll().get(0);
 
@@ -81,7 +84,7 @@ class LabelControllerTest {
 
     @Test
     void getLabels() throws Exception {
-        utils.regDefaultLabelAuthorized();
+        utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final MockHttpServletResponse response = utils.perform(get(LABEL_CONTROLLER_PATH),
                         TEST_USERNAME)
                 .andExpect(status().isOk())
@@ -94,7 +97,7 @@ class LabelControllerTest {
 
     @Test
     void getLabelById() throws Exception {
-        utils.regDefaultLabelAuthorized();
+        utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label expectedLabel = labelRepository.findAll().get(0);
         final MockHttpServletResponse response = utils.perform(
                         get(LABEL_CONTROLLER_PATH + ID, expectedLabel.getId()),
@@ -110,7 +113,7 @@ class LabelControllerTest {
 
     @Test
     public void updateTaskStatus() throws Exception {
-        utils.regDefaultLabelAuthorized();
+        utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label oldLabel = labelRepository.findAll().get(0);
         final LabelDto updLabelDto = new LabelDto(TEST_LABEL_UPD);
         final Long labelId = oldLabel.getId();
@@ -130,7 +133,7 @@ class LabelControllerTest {
 
     @Test
     public void deleteTaskStatus() throws Exception {
-        utils.regDefaultLabelAuthorized();
+        utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label label = labelRepository.findAll().get(0);
         utils.perform(delete(LABEL_CONTROLLER_PATH + ID, label.getId()),
                         TEST_USERNAME)

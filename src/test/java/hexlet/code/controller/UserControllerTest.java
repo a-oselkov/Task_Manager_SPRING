@@ -55,7 +55,8 @@ public class UserControllerTest {
     @Test
     public void registration() throws Exception {
         assertThat(userRepository.count()).isEqualTo(0);
-        utils.regDefaultUser().andExpect(status().isCreated());
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH)
+                .andExpect(status().isCreated());
         assertThat(userRepository.count()).isEqualTo(1);
 
         final User user = userRepository.findByEmail(TEST_USERNAME).get();
@@ -66,7 +67,7 @@ public class UserControllerTest {
 
     @Test
     public void getUserById() throws Exception {
-        utils.regDefaultUser();
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
         final User expectedUser = userRepository.findAll().get(0);
         final MockHttpServletResponse response = utils.perform(
                 get(USER_CONTROLLER_PATH + ID, expectedUser.getId()),
@@ -87,7 +88,7 @@ public class UserControllerTest {
 
     @Test
     public void getAllUsers() throws Exception {
-        utils.regDefaultUser();
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
         final MockHttpServletResponse response = utils.perform(get(USER_CONTROLLER_PATH))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -101,14 +102,16 @@ public class UserControllerTest {
 
     @Test
     public void twiceRegTheSameUserFail() throws Exception {
-        utils.regDefaultUser().andExpect(status().isCreated());
-        utils.regDefaultUser().andExpect(status().is(422));
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH)
+                .andExpect(status().isCreated());
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH)
+                .andExpect(status().is(422));
         assertThat(userRepository.count()).isEqualTo(1);
     }
 
     @Test
     public void login() throws Exception {
-        utils.regDefaultUser();
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
         final LoginDto loginDto = new LoginDto(
                 utils.getTestRegistrationDto().getEmail(),
                 utils.getTestRegistrationDto().getPassword()
@@ -133,7 +136,7 @@ public class UserControllerTest {
 
     @Test
     public void updateUser() throws Exception {
-        utils.regDefaultUser();
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
 
         final User oldUser = userRepository.findByEmail(TEST_USERNAME).get();
         final Long userId = oldUser.getId();
@@ -155,7 +158,7 @@ public class UserControllerTest {
 
     @Test
     public void deleteUser() throws Exception {
-        utils.regDefaultUser();
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
 
         final Long userId = userRepository.findByEmail(TEST_USERNAME).get().getId();
 
@@ -167,13 +170,14 @@ public class UserControllerTest {
 
     @Test
     public void deleteUserByNotOwner() throws Exception {
-        utils.regDefaultUser();
-        utils.regUser(new UserDto(
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
+
+        utils.regByAuthorizedUser(new UserDto(
                 "lname",
                 "fname",
                 TEST_USERNAME_NEW,
                 "pwd"
-        ));
+        ), USER_CONTROLLER_PATH);
 
         final Long userId = userRepository.findByEmail(TEST_USERNAME).get().getId();
 

@@ -24,6 +24,7 @@ import java.util.List;
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
 import static hexlet.code.controller.TaskStatusController.ID;
 import static hexlet.code.controller.TaskStatusController.TASKSTATUS_CONTROLLER_PATH;
+import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.TEST_TASKSTATUS;
 import static hexlet.code.utils.TestUtils.TEST_TASKSTATUS_UPD;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
@@ -51,7 +52,7 @@ class TaskStatusControllerTest {
 
     @BeforeEach
     public void regUser() throws Exception {
-        utils.regDefaultUser();
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
     }
 
     @AfterEach
@@ -62,7 +63,8 @@ class TaskStatusControllerTest {
     @Test
     public void createTaskNotAuthorized() throws Exception {
         assertThat(taskStatusRepository.count()).isEqualTo(0);
-        utils.regTaskStatusNotAuthorized().andExpect(status().isForbidden());
+        utils.regByNotAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH)
+                .andExpect(status().isForbidden());
         assertThat(taskStatusRepository.count()).isEqualTo(0);
     }
 
@@ -70,7 +72,8 @@ class TaskStatusControllerTest {
     public void createTaskAuthorized() throws Exception {
         assertThat(taskStatusRepository.count()).isEqualTo(0);
 
-        utils.regDefaultTaskStatusAuthorized().andExpect(status().isCreated());
+        utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH)
+                .andExpect(status().isCreated());
         final TaskStatus taskStatus = taskStatusRepository.findAll().get(0);
 
         assertThat(taskStatusRepository.count()).isEqualTo(1);
@@ -79,7 +82,7 @@ class TaskStatusControllerTest {
 
     @Test
     void getTaskStatuses() throws Exception {
-        utils.regDefaultTaskStatusAuthorized();
+        utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
         final MockHttpServletResponse response = utils.perform(get(TASKSTATUS_CONTROLLER_PATH),
                         TEST_USERNAME)
                 .andExpect(status().isOk())
@@ -92,7 +95,7 @@ class TaskStatusControllerTest {
 
     @Test
     void getTaskStatusById() throws Exception {
-        utils.regDefaultTaskStatusAuthorized();
+        utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
         final TaskStatus expectedTaskStatus = taskStatusRepository.findAll().get(0);
         final MockHttpServletResponse response = utils.perform(
                         get(TASKSTATUS_CONTROLLER_PATH + ID, expectedTaskStatus.getId()),
@@ -108,7 +111,7 @@ class TaskStatusControllerTest {
 
     @Test
     public void updateTaskStatus() throws Exception {
-        utils.regDefaultTaskStatusAuthorized();
+        utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
         final TaskStatus oldTaskStatus = taskStatusRepository.findAll().get(0);
         final TaskStatusDto newTaskStatusDto = new TaskStatusDto(TEST_TASKSTATUS_UPD);
         final Long taskStatusId = oldTaskStatus.getId();
@@ -128,7 +131,7 @@ class TaskStatusControllerTest {
 
     @Test
     public void deleteTaskStatus() throws Exception {
-        utils.regDefaultTaskStatusAuthorized();
+        utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
         final TaskStatus taskStatus = taskStatusRepository.findAll().get(0);
         utils.perform(delete(TASKSTATUS_CONTROLLER_PATH + ID, taskStatus.getId()),
                         TEST_USERNAME)
