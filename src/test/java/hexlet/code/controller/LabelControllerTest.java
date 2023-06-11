@@ -114,17 +114,16 @@ class LabelControllerTest {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label oldLabel = labelRepository.findAll().get(0);
         final LabelDto updLabelDto = new LabelDto(TEST_LABEL_UPD);
-        final Long labelId = oldLabel.getId();
 
         final MockHttpServletRequestBuilder updateRequest = put(
-                LABEL_CONTROLLER_PATH + ID, labelId)
+                LABEL_CONTROLLER_PATH + ID, oldLabel.getId())
                 .content(TestUtils.asJson(updLabelDto))
                 .contentType(APPLICATION_JSON);
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
 
         final Label updLabel = labelRepository.findAll().get(0);
 
-        assertThat(labelRepository.existsById(labelId)).isTrue();
+        assertThat(labelRepository.existsById(oldLabel.getId())).isTrue();
         assertThat(updLabel.getId()).isEqualTo(oldLabel.getId());
         assertThat(updLabel.getName()).isEqualTo(TEST_LABEL_UPD);
     }
