@@ -113,17 +113,16 @@ class TaskStatusControllerTest {
         utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
         final TaskStatus oldTaskStatus = taskStatusRepository.findAll().get(0);
         final TaskStatusDto newTaskStatusDto = new TaskStatusDto(TEST_TASKSTATUS_UPD);
-        final Long taskStatusId = oldTaskStatus.getId();
 
         final MockHttpServletRequestBuilder updateRequest = put(
-                TASKSTATUS_CONTROLLER_PATH + ID, taskStatusId)
+                TASKSTATUS_CONTROLLER_PATH + ID, oldTaskStatus.getId())
                 .content(TestUtils.asJson(newTaskStatusDto))
                 .contentType(APPLICATION_JSON);
 
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
         final TaskStatus newTaskStatus = taskStatusRepository.findAll().get(0);
 
-        assertThat(taskStatusRepository.existsById(taskStatusId)).isTrue();
+        assertThat(taskStatusRepository.existsById(oldTaskStatus.getId())).isTrue();
         assertThat(newTaskStatus.getId()).isEqualTo(oldTaskStatus.getId());
         assertThat(newTaskStatus.getName()).isEqualTo(TEST_TASKSTATUS_UPD);
     }
