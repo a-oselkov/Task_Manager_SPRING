@@ -110,7 +110,7 @@ class LabelControllerTest {
     }
 
     @Test
-    public void updateLabel() throws Exception {
+    public void updateLabelStatus() throws Exception {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label oldLabel = labelRepository.findAll().get(0);
         final LabelDto updLabelDto = new LabelDto(TEST_LABEL_UPD);
@@ -130,7 +130,7 @@ class LabelControllerTest {
     }
 
     @Test
-    public void deleteLabel() throws Exception {
+    public void deleteLabelStatus() throws Exception {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label label = labelRepository.findAll().get(0);
         utils.perform(delete(LABEL_CONTROLLER_PATH + ID, label.getId()),

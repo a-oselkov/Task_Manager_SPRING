@@ -7,6 +7,7 @@ import hexlet.code.repository.TaskRepository;
 import hexlet.code.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +26,7 @@ import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("${base-url}" + TASK_CONTROLLER_PATH)
 public class TaskController {
     public static final String TASK_CONTROLLER_PATH = "/tasks";

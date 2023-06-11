@@ -6,6 +6,7 @@ import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("${base-url}" + USER_CONTROLLER_PATH)
 public class UserController {
     public static final String USER_CONTROLLER_PATH = "/users";

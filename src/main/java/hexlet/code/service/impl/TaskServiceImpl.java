@@ -12,6 +12,7 @@ import hexlet.code.repository.UserRepository;
 import hexlet.code.service.TaskService;
 import hexlet.code.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
