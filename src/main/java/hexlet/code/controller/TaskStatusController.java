@@ -6,7 +6,6 @@ import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.service.TaskStatusService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +24,7 @@ import static hexlet.code.controller.TaskStatusController.TASKSTATUS_CONTROLLER_
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @RequestMapping("${base-url}" + TASKSTATUS_CONTROLLER_PATH)
 public class TaskStatusController {
 
