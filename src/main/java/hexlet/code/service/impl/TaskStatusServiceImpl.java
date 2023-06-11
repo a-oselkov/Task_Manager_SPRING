@@ -18,15 +18,20 @@ public class TaskStatusServiceImpl implements TaskStatusService {
 
     @Override
     public TaskStatus createTaskStatus(final TaskStatusDto taskStatusDto) {
-        final TaskStatus taskStatus = new TaskStatus();
-        taskStatus.setName(taskStatusDto.getName());
+        final TaskStatus taskStatus = fromDto(taskStatusDto);
         return taskStatusRepository.save(taskStatus);
     }
 
     @Override
     public TaskStatus updateTaskStatus(final Long id, final TaskStatusDto taskStatusDto) {
-        final TaskStatus taskStatus = taskStatusRepository.findById(id).get();
-        taskStatus.setName(taskStatusDto.getName());
+        final TaskStatus taskStatus = fromDto(taskStatusDto);
+        taskStatus.setId(id);
         return taskStatusRepository.save(taskStatus);
+    }
+
+    private TaskStatus fromDto(TaskStatusDto taskStatusDto) {
+        return TaskStatus.builder()
+                .name(taskStatusDto.getName())
+                .build();
     }
 }
