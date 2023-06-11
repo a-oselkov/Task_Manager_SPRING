@@ -61,18 +61,6 @@ public class TestUtils {
             TEST_LABEL
     );
 
-//    private final TaskDto testTaskDto = new TaskDto(
-//            "taskName",
-//            "description",
-//            1L,
-//            1L,
-//            List.of(1L)
-//    );
-//
-//    public TaskDto getTestTaskDto() {
-//        return testTaskDto;
-//    }
-
     public UserDto getTestRegistrationDto() {
         return testUserDto;
     }

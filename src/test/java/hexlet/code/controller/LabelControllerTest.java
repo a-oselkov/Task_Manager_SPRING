@@ -29,7 +29,6 @@ import static hexlet.code.utils.TestUtils.TEST_LABEL;
 import static hexlet.code.utils.TestUtils.TEST_LABEL_UPD;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -125,7 +124,7 @@ class LabelControllerTest {
 
         final Label updLabel = labelRepository.findAll().get(0);
 
-        assertTrue(labelRepository.existsById(labelId));
+        assertThat(labelRepository.existsById(labelId)).isTrue();
         assertThat(updLabel.getId()).isEqualTo(oldLabel.getId());
         assertThat(updLabel.getName()).isEqualTo(TEST_LABEL_UPD);
     }

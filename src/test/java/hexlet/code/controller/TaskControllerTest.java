@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.List;
 
@@ -33,8 +34,10 @@ import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -132,25 +135,36 @@ class TaskControllerTest {
         assertThat(task.getName()).isEqualTo(expectedTask.getName());
     }
 
-//    @Test
-//    public void updateTask() throws Exception {
-//        utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
-//        final Label oldLabel = labelRepository.findAll().get(0);
-//        final LabelDto updLabelDto = new LabelDto(TEST_LABEL_UPD);
-//        final Long labelId = oldLabel.getId();
-//
-//        final MockHttpServletRequestBuilder updateRequest = put(
-//                LABEL_CONTROLLER_PATH + ID, labelId)
-//                .content(TestUtils.asJson(updLabelDto))
-//                .contentType(APPLICATION_JSON);
-//        utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
-//
-//        final Label updLabel = labelRepository.findAll().get(0);
-//
-//        assertTrue(labelRepository.existsById(labelId));
-//        assertThat(updLabel.getId()).isEqualTo(oldLabel.getId());
-//        assertThat(updLabel.getName()).isEqualTo(TEST_LABEL_UPD);
-//    }
+    @Test
+    public void updateTask() throws Exception {
+        utils.regByAuthorizedUser(taskDto, TASK_CONTROLLER_PATH);
+        final Task oldTask = taskRepository.findAll().get(0);
+        final TaskDto updTasklDto = new TaskDto(
+                "updTask",
+                "updDescription",
+                taskStatusRepository.findAll().get(0).getId(),
+                userRepository.findAll().get(0).getId(),
+                List.of(labelRepository.findAll().get(0).getId())
+        );
+
+        final MockHttpServletRequestBuilder updateRequest = put(
+                TASK_CONTROLLER_PATH + ID, oldTask.getId())
+                .content(TestUtils.asJson(updTasklDto))
+                .contentType(APPLICATION_JSON);
+        utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
+
+        final Task updTask = taskRepository.findAll().get(0);
+        final User executor = userRepository.findById(taskDto.getExecutorId()).get();
+        final List<Label> labels = labelRepository.findAll();
+
+        assertThat(taskRepository.existsById(oldTask.getId())).isTrue();
+        assertThat(updTask.getId()).isEqualTo(oldTask.getId());
+        assertThat(updTask.getName()).isEqualTo(updTasklDto.getName());
+        assertThat(updTask.getDescription()).isEqualTo(updTasklDto.getDescription());
+        assertThat(updTask.getAuthor()).isEqualTo(userRepository.findByEmail(TEST_USERNAME).get());
+        assertThat(updTask.getExecutor()).isEqualTo(executor);
+        assertThat(updTask.getLabels().get(0)).isEqualTo(labels.get(0));
+    }
 
     @Test
     public void deleteTask() throws Exception {

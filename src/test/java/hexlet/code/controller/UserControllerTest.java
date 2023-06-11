@@ -27,7 +27,6 @@ import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME_NEW;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -150,7 +149,7 @@ public class UserControllerTest {
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
 
         final User newUser = userRepository.findByEmail(TEST_USERNAME_NEW).get();
-        assertTrue(userRepository.existsById(userId));
+        assertThat(userRepository.existsById(userId)).isTrue();
         assertThat(newUser.getFirstName()).isEqualTo(userDto.getFirstName());
         assertThat(newUser.getLastName()).isEqualTo(userDto.getLastName());
         assertThat(newUser.getEmail()).isEqualTo(userDto.getEmail());

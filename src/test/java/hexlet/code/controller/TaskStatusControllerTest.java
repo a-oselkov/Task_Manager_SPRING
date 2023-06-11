@@ -29,7 +29,6 @@ import static hexlet.code.utils.TestUtils.TEST_TASKSTATUS;
 import static hexlet.code.utils.TestUtils.TEST_TASKSTATUS_UPD;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -124,7 +123,7 @@ class TaskStatusControllerTest {
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
         final TaskStatus newTaskStatus = taskStatusRepository.findAll().get(0);
 
-        assertTrue(taskStatusRepository.existsById(taskStatusId));
+        assertThat(taskStatusRepository.existsById(taskStatusId)).isTrue();
         assertThat(newTaskStatus.getId()).isEqualTo(oldTaskStatus.getId());
         assertThat(newTaskStatus.getName()).isEqualTo(TEST_TASKSTATUS_UPD);
     }
