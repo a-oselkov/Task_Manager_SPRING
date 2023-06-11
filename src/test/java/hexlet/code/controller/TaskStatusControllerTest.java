@@ -80,19 +80,6 @@ class TaskStatusControllerTest {
     }
 
     @Test
-    void getTaskStatuses() throws Exception {
-        utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
-        final MockHttpServletResponse response = utils.perform(get(TASKSTATUS_CONTROLLER_PATH),
-                        TEST_USERNAME)
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        final List<TaskStatus> tasks = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
-        });
-        assertThat(tasks).hasSize(1);
-    }
-
-    @Test
     void getTaskStatusById() throws Exception {
         utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
         final TaskStatus expectedTaskStatus = taskStatusRepository.findAll().get(0);
@@ -106,6 +93,19 @@ class TaskStatusControllerTest {
         });
         assertThat(taskStatus.getId()).isEqualTo(expectedTaskStatus.getId());
         assertThat(taskStatus.getName()).isEqualTo(expectedTaskStatus.getName());
+    }
+
+    @Test
+    void getTaskStatuses() throws Exception {
+        utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
+        final MockHttpServletResponse response = utils.perform(get(TASKSTATUS_CONTROLLER_PATH),
+                        TEST_USERNAME)
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+        final List<TaskStatus> tasks = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(tasks).hasSize(1);
     }
 
     @Test
