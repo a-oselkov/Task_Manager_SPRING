@@ -81,19 +81,6 @@ class LabelControllerTest {
     }
 
     @Test
-    void getLabels() throws Exception {
-        utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
-        final MockHttpServletResponse response = utils.perform(get(LABEL_CONTROLLER_PATH),
-                        TEST_USERNAME)
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        final List<Label> labels = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
-        });
-        assertThat(labels).hasSize(1);
-    }
-
-    @Test
     void getLabelById() throws Exception {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label expectedLabel = labelRepository.findAll().get(0);
@@ -107,6 +94,19 @@ class LabelControllerTest {
         });
         assertThat(label.getId()).isEqualTo(expectedLabel.getId());
         assertThat(label.getName()).isEqualTo(expectedLabel.getName());
+    }
+    
+    @Test
+    void getLabels() throws Exception {
+        utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
+        final MockHttpServletResponse response = utils.perform(get(LABEL_CONTROLLER_PATH),
+                        TEST_USERNAME)
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+        final List<Label> labels = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(labels).hasSize(1);
     }
 
     @Test
