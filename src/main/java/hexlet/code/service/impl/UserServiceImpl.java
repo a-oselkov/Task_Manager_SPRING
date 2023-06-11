@@ -21,25 +21,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(final UserDto userDto) {
-        final User user = new User();
-        final String password = passwordEncoder.encode(userDto.getPassword());
-
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(password);
+        final User user = fromDto(userDto);
         return userRepository.save(user);
     }
 
     @Override
     public User updateUser(final Long id, final UserDto userDto) {
-        final User user = userRepository.findById(id).get();
-        final String password = passwordEncoder.encode(userDto.getPassword());
-
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(password);
+        final User user = fromDto(userDto);
+        user.setId(id);
         return userRepository.save(user);
     }
 
@@ -48,5 +37,15 @@ public class UserServiceImpl implements UserService {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String username = auth.getName();
         return userRepository.findByEmail(username).get();
+    }
+
+    private User fromDto(UserDto userDto) {
+        final String password = passwordEncoder.encode(userDto.getPassword());
+        return User.builder()
+                .firstName(userDto.getFirstName())
+                .lastName(userDto.getLastName())
+                .email(userDto.getEmail())
+                .password(password)
+                .build();
     }
 }
