@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.component.JWTHelper;
 import hexlet.code.dto.LabelDto;
-import hexlet.code.dto.TaskDto;
 import hexlet.code.dto.TaskStatusDto;
 import hexlet.code.dto.UserDto;
 import hexlet.code.repository.LabelRepository;
@@ -18,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -63,17 +61,17 @@ public class TestUtils {
             TEST_LABEL
     );
 
-    private final TaskDto testTaskDto = new TaskDto(
-            "taskName",
-            "description",
-            1L,
-            1L,
-            List.of(1L)
-    );
-
-    public TaskDto getTestTaskDto() {
-        return testTaskDto;
-    }
+//    private final TaskDto testTaskDto = new TaskDto(
+//            "taskName",
+//            "description",
+//            1L,
+//            1L,
+//            List.of(1L)
+//    );
+//
+//    public TaskDto getTestTaskDto() {
+//        return testTaskDto;
+//    }
 
     public UserDto getTestRegistrationDto() {
         return testUserDto;

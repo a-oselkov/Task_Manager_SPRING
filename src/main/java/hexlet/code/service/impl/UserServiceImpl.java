@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(final UserDto userDto) {
-        User user = new User();
-        String password = passwordEncoder.encode(userDto.getPassword());
+        final User user = new User();
+        final String password = passwordEncoder.encode(userDto.getPassword());
 
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(final Long id, final UserDto userDto) {
-        User user = userRepository.findById(id).get();
-        String password = passwordEncoder.encode(userDto.getPassword());
+        final User user = userRepository.findById(id).get();
+        final String password = passwordEncoder.encode(userDto.getPassword());
 
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -45,8 +45,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final String username = auth.getName();
         return userRepository.findByEmail(username).get();
     }
 }

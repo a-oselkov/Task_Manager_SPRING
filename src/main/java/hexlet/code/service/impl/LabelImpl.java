@@ -18,14 +18,14 @@ public class LabelImpl implements LabelService {
 
     @Override
     public Label createLabel(final LabelDto labelDto) {
-        Label label = new Label();
+        final Label label = new Label();
         label.setName(labelDto.getName());
         return labelRepository.save(label);
     }
 
     @Override
     public Label updateLabel(final Long id, final LabelDto labelDto) {
-        Label label = labelRepository.findById(id).get();
+        final Label label = labelRepository.findById(id).get();
         label.setName(labelDto.getName());
         return labelRepository.save(label);
     }
