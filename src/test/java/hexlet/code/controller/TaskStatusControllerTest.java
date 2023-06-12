@@ -7,7 +7,6 @@ import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.utils.TestUtils;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,13 +49,12 @@ class TaskStatusControllerTest {
     private TestUtils utils;
 
     @BeforeEach
-    public void regUser() throws Exception {
-        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
-    }
-
-    @AfterEach
     public void clear() {
         utils.tearDown();
+    }
+    @BeforeEach
+    public void regUser() throws Exception {
+        utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
     }
 
     @Test

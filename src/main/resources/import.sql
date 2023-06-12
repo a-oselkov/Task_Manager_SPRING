@@ -1,7 +1,6 @@
-INSERT INTO task_statuses VALUES (101, '2023-01-01 00:00:00', 'Новый');
-INSERT INTO task_statuses VALUES (102, '2023-01-01 00:00:00', 'В работе');
-INSERT INTO task_statuses VALUES (103, '2023-01-01 00:00:00', 'Завершен');
+INSERT INTO task_statuses (created_at, name) VALUES ('2023-01-01 00:00:00', 'Новая');
+INSERT INTO task_statuses (created_at, name) VALUES ('2023-01-01 00:00:00', 'В работе');
+INSERT INTO task_statuses (created_at, name) VALUES ('2023-01-01 00:00:00', 'Завершена');
 
-INSERT INTO labels VALUES (101, '2023-10-10 00:00:00', 'Frontend');
-INSERT INTO labels VALUES (102, '2023-10-10 00:00:00', 'Backend');
-
+INSERT INTO labels (created_at, name) VALUES ('2022-10-10 00:00:00', 'Frontend');
+INSERT INTO labels  (created_at, name) VALUES ('2022-10-10 00:00:00', 'Backend');
