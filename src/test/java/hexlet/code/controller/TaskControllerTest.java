@@ -27,7 +27,7 @@ import java.util.List;
 
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
 import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
-import static hexlet.code.controller.TaskController.ID;
+import static hexlet.code.controller.TaskController.TASK_ID;
 import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static hexlet.code.controller.TaskStatusController.TASKSTATUS_CONTROLLER_PATH;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
@@ -124,7 +124,7 @@ class TaskControllerTest {
         utils.regByAuthorizedUser(taskDto, TASK_CONTROLLER_PATH);
         final Task expectedTask = taskRepository.findAll().get(0);
         final MockHttpServletResponse response = utils.perform(
-                        get(TASK_CONTROLLER_PATH + ID, expectedTask.getId()),
+                        get(TASK_CONTROLLER_PATH + TASK_ID, expectedTask.getId()),
                         TEST_USERNAME)
                 .andExpect(status().isOk())
                 .andReturn()
@@ -143,7 +143,7 @@ class TaskControllerTest {
         taskDto.setDescription("updDescription");
 
         final MockHttpServletRequestBuilder updateRequest = put(
-                TASK_CONTROLLER_PATH + ID, oldTask.getId())
+                TASK_CONTROLLER_PATH + TASK_ID, oldTask.getId())
                 .content(TestUtils.asJson(taskDto))
                 .contentType(APPLICATION_JSON);
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
@@ -167,7 +167,7 @@ class TaskControllerTest {
                 .andExpect(status().isCreated());
         assertThat(taskRepository.count()).isEqualTo(1);
         final Task task = taskRepository.findAll().get(0);
-        utils.perform(delete(TASK_CONTROLLER_PATH + ID, task.getId()),
+        utils.perform(delete(TASK_CONTROLLER_PATH + TASK_ID, task.getId()),
                         TEST_USERNAME)
                 .andExpect(status().isOk());
         assertThat(taskRepository.count()).isEqualTo(0);

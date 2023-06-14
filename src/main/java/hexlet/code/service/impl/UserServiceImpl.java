@@ -7,6 +7,7 @@ import hexlet.code.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,8 @@ public class UserServiceImpl implements UserService {
     public User getCurrentUser() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String username = auth.getName();
-        return userRepository.findByEmail(username).get();
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Not found user with 'username': " + username));
     }
 
     private User fromDto(UserDto userDto) {

@@ -29,7 +29,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("${base-url}" + LABEL_CONTROLLER_PATH)
 public class LabelController {
     public static final String LABEL_CONTROLLER_PATH = "/labels";
-    public static final String  ID = "/{id}";
+    public static final String LABEL_ID = "/{id}";
 
     private final LabelService labelService;
     private final LabelRepository labelRepository;
@@ -39,10 +39,10 @@ public class LabelController {
         return labelRepository.findAll();
     }
 
-    @GetMapping(ID)
+    @GetMapping(LABEL_ID)
     public Label getUser(@PathVariable final Long id) {
         return labelRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " not found"));
     }
 
     @PostMapping
@@ -52,14 +52,14 @@ public class LabelController {
         return labelService.createLabel(labelDto);
     }
 
-    @PutMapping(ID)
+    @PutMapping(LABEL_ID)
     @PreAuthorize("hasAuthority('USER')")
     public Label updateUser(@PathVariable final Long id,
                            @RequestBody @Valid final LabelDto labelDto) {
         return labelService.updateLabel(id, labelDto);
     }
 
-    @DeleteMapping(ID)
+    @DeleteMapping(LABEL_ID)
     @PreAuthorize("hasAuthority('USER')")
     public void deleteUser(@PathVariable final Long id) {
         labelRepository.deleteById(id);

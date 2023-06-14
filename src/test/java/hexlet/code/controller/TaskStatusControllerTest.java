@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.List;
 
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
-import static hexlet.code.controller.TaskStatusController.ID;
+import static hexlet.code.controller.TaskStatusController.TASKSTATUS_ID;
 import static hexlet.code.controller.TaskStatusController.TASKSTATUS_CONTROLLER_PATH;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.TEST_TASKSTATUS;
@@ -82,7 +82,7 @@ class TaskStatusControllerTest {
         utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
         final TaskStatus expectedTaskStatus = taskStatusRepository.findAll().get(0);
         final MockHttpServletResponse response = utils.perform(
-                        get(TASKSTATUS_CONTROLLER_PATH + ID, expectedTaskStatus.getId()),
+                        get(TASKSTATUS_CONTROLLER_PATH + TASKSTATUS_ID, expectedTaskStatus.getId()),
                         TEST_USERNAME)
                 .andExpect(status().isOk())
                 .andReturn()
@@ -113,7 +113,7 @@ class TaskStatusControllerTest {
         final TaskStatusDto newTaskStatusDto = new TaskStatusDto(TEST_TASKSTATUS_UPD);
 
         final MockHttpServletRequestBuilder updateRequest = put(
-                TASKSTATUS_CONTROLLER_PATH + ID, oldTaskStatus.getId())
+                TASKSTATUS_CONTROLLER_PATH + TASKSTATUS_ID, oldTaskStatus.getId())
                 .content(TestUtils.asJson(newTaskStatusDto))
                 .contentType(APPLICATION_JSON);
 
@@ -129,7 +129,7 @@ class TaskStatusControllerTest {
     public void deleteTaskStatus() throws Exception {
         utils.regByAuthorizedUser(utils.getTestTaskStatusDto(), TASKSTATUS_CONTROLLER_PATH);
         final TaskStatus taskStatus = taskStatusRepository.findAll().get(0);
-        utils.perform(delete(TASKSTATUS_CONTROLLER_PATH + ID, taskStatus.getId()),
+        utils.perform(delete(TASKSTATUS_CONTROLLER_PATH + TASKSTATUS_ID, taskStatus.getId()),
                         TEST_USERNAME)
                 .andExpect(status().isOk());
         assertThat(taskStatusRepository.count()).isEqualTo(0);

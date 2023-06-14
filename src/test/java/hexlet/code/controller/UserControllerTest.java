@@ -22,7 +22,7 @@ import java.util.List;
 
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
 import static hexlet.code.config.security.SecurityConfig.LOGIN;
-import static hexlet.code.controller.UserController.ID;
+import static hexlet.code.controller.UserController.USER_ID;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME_NEW;
@@ -69,7 +69,7 @@ public class UserControllerTest {
         utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
         final User expectedUser = userRepository.findAll().get(0);
         final MockHttpServletResponse response = utils.perform(
-                get(USER_CONTROLLER_PATH + ID, expectedUser.getId()),
+                get(USER_CONTROLLER_PATH + USER_ID, expectedUser.getId()),
                 expectedUser.getEmail()
                 )
                 .andExpect(status().isOk())
@@ -143,7 +143,7 @@ public class UserControllerTest {
         final UserDto userDto = new UserDto("newName", "newLastName",
                 TEST_USERNAME_NEW, "newPwd");
 
-        final MockHttpServletRequestBuilder updateRequest = put(USER_CONTROLLER_PATH + ID, userId)
+        final MockHttpServletRequestBuilder updateRequest = put(USER_CONTROLLER_PATH + USER_ID, userId)
                 .content(TestUtils.asJson(userDto))
                 .contentType(APPLICATION_JSON);
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
@@ -161,7 +161,7 @@ public class UserControllerTest {
 
         final Long userId = userRepository.findByEmail(TEST_USERNAME).get().getId();
 
-        utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME)
+        utils.perform(delete(USER_CONTROLLER_PATH + USER_ID, userId), TEST_USERNAME)
                 .andExpect(status().isOk());
 
         assertThat(userRepository.count()).isEqualTo(0);
@@ -171,16 +171,17 @@ public class UserControllerTest {
     public void deleteUserByNotOwner() throws Exception {
         utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
 
-        utils.regByAuthorizedUser(new UserDto(
-                "lname",
+        final UserDto notOwnerUserDto = new UserDto(
                 "fname",
+                "lname",
                 TEST_USERNAME_NEW,
-                "pwd"
-        ), USER_CONTROLLER_PATH);
+                "pwd");
 
-        final Long userId = userRepository.findByEmail(TEST_USERNAME).get().getId();
+        utils.regByNotAuthorizedUser(notOwnerUserDto, USER_CONTROLLER_PATH);
 
-        utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME_NEW)
+        final Long ownerUserId = userRepository.findByEmail(TEST_USERNAME).get().getId();
+
+        utils.perform(delete(USER_CONTROLLER_PATH + USER_ID, ownerUserId), TEST_USERNAME_NEW)
                 .andExpect(status().isForbidden());
 
         assertThat(userRepository.count()).isEqualTo(2);

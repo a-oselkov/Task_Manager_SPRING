@@ -32,14 +32,14 @@ public class TaskStatusController {
     private final TaskStatusRepository taskStatusRepository;
     private final TaskStatusService taskStatusService;
     public static final String TASKSTATUS_CONTROLLER_PATH = "/statuses";
-    public static final String ID = "/{id}";
+    public static final String TASKSTATUS_ID = "/{id}";
 
     @GetMapping
     public List<TaskStatus> getTaskStatuses() {
         return taskStatusRepository.findAll();
     }
 
-    @GetMapping(ID)
+    @GetMapping(TASKSTATUS_ID)
     public TaskStatus getTaskStatus(@PathVariable final Long id) {
         return taskStatusRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Status not found"));
@@ -52,14 +52,14 @@ public class TaskStatusController {
         return taskStatusService.createTaskStatus(taskStatusDto);
     }
 
-    @PutMapping(ID)
+    @PutMapping(TASKSTATUS_ID)
     @PreAuthorize("hasAuthority('USER')")
     public TaskStatus updateTaskStatus(@PathVariable final Long id,
                                        @RequestBody @Valid final TaskStatusDto taskStatusDto) {
         return taskStatusService.updateTaskStatus(id, taskStatusDto);
     }
 
-    @DeleteMapping(ID)
+    @DeleteMapping(TASKSTATUS_ID)
     @PreAuthorize("hasAuthority('USER')")
     public void deleteTaskStatus(@PathVariable final Long id) {
         taskStatusRepository.deleteById(id);

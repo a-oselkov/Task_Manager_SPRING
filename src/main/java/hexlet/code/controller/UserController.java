@@ -29,7 +29,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("${base-url}" + USER_CONTROLLER_PATH)
 public class UserController {
     public static final String USER_CONTROLLER_PATH = "/users";
-    public static final String  ID = "/{id}";
+    public static final String USER_ID = "/{id}";
     private static final String ACCOUNT_OWNER = """
             @userRepository.findById(#id).get().getEmail() == authentication.getName()
         """;
@@ -42,10 +42,10 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping(ID)
+    @GetMapping(USER_ID)
     public User getUser(@PathVariable final Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " not found"));
     }
 
     @PostMapping
@@ -54,14 +54,14 @@ public class UserController {
         return userService.createUser(userDto);
     }
 
-    @PutMapping(ID)
+    @PutMapping(USER_ID)
     @PreAuthorize(ACCOUNT_OWNER)
     public User updateUser(@PathVariable final Long id,
                            @RequestBody @Valid final UserDto userDto) {
         return userService.updateUser(id, userDto);
     }
 
-    @DeleteMapping(ID)
+    @DeleteMapping(USER_ID)
     @PreAuthorize(ACCOUNT_OWNER)
     public void deleteUser(@PathVariable final Long id) {
         userRepository.deleteById(id);

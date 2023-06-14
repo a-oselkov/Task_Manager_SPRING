@@ -30,7 +30,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("${base-url}" + TASK_CONTROLLER_PATH)
 public class TaskController {
     public static final String TASK_CONTROLLER_PATH = "/tasks";
-    public static final String ID = "/{id}";
+    public static final String TASK_ID = "/{id}";
     private static final String TASK_OWNER =
             "@taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()";
 
@@ -42,10 +42,10 @@ public class TaskController {
         return taskRepository.findAll(predicate);
     }
 
-    @GetMapping(ID)
+    @GetMapping(TASK_ID)
     public Task getTask(@PathVariable final Long id) {
-        return taskRepository.findById(id).
-                orElseThrow(() -> new NoSuchElementException("Task not found"));
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Task with id " + id + " not found"));
     }
 
     @PostMapping
@@ -55,13 +55,13 @@ public class TaskController {
         return taskService.createTask(taskDto);
     }
 
-    @PutMapping(ID)
+    @PutMapping(TASK_ID)
     @PreAuthorize("hasAuthority('USER')")
     public Task updateTask(@PathVariable final Long id, @RequestBody @Valid final TaskDto taskDto) {
         return taskService.updateTask(id, taskDto);
     }
 
-    @DeleteMapping(ID)
+    @DeleteMapping(TASK_ID)
     @PreAuthorize(TASK_OWNER)
     public void deleteTask(@PathVariable final Long id) {
         taskRepository.deleteById(id);

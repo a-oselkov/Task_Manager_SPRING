@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.List;
 
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
-import static hexlet.code.controller.LabelController.ID;
+import static hexlet.code.controller.LabelController.LABEL_ID;
 import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.TEST_LABEL;
@@ -83,7 +83,7 @@ class LabelControllerTest {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label expectedLabel = labelRepository.findAll().get(0);
         final MockHttpServletResponse response = utils.perform(
-                        get(LABEL_CONTROLLER_PATH + ID, expectedLabel.getId()),
+                        get(LABEL_CONTROLLER_PATH + LABEL_ID, expectedLabel.getId()),
                         TEST_USERNAME)
                 .andExpect(status().isOk())
                 .andReturn()
@@ -114,7 +114,7 @@ class LabelControllerTest {
         final LabelDto updLabelDto = new LabelDto(TEST_LABEL_UPD);
 
         final MockHttpServletRequestBuilder updateRequest = put(
-                LABEL_CONTROLLER_PATH + ID, oldLabel.getId())
+                LABEL_CONTROLLER_PATH + LABEL_ID, oldLabel.getId())
                 .content(TestUtils.asJson(updLabelDto))
                 .contentType(APPLICATION_JSON);
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
@@ -130,7 +130,7 @@ class LabelControllerTest {
     public void deleteLabel() throws Exception {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label label = labelRepository.findAll().get(0);
-        utils.perform(delete(LABEL_CONTROLLER_PATH + ID, label.getId()),
+        utils.perform(delete(LABEL_CONTROLLER_PATH + LABEL_ID, label.getId()),
                         TEST_USERNAME)
                 .andExpect(status().isOk());
         assertThat(labelRepository.count()).isEqualTo(0);

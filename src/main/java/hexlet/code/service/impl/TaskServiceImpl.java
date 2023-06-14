@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -43,10 +44,15 @@ public class TaskServiceImpl implements TaskService {
 
     private Task fromDto(TaskDto taskDto) {
         final User author = userService.getCurrentUser();
-        final TaskStatus taskStatus = taskStatusRepository.findById(taskDto.getTaskStatusId()).get();
-        final User executor = userRepository.findById(taskDto.getExecutorId()).get();
-        final List<Label> labels = taskDto.getLabelIds() == null ? null
-                : labelRepository.findAllById(taskDto.getLabelIds());
+        final TaskStatus taskStatus = taskStatusRepository.findById(taskDto.getTaskStatusId())
+                .orElseThrow(() -> new NoSuchElementException(
+                        "Task Status with id " + taskDto.getTaskStatusId() + " for Task not found")
+                );
+        final User executor = userRepository.findById(taskDto.getExecutorId())
+                .orElseThrow(() -> new NoSuchElementException(
+                        "Executor with id " + taskDto.getExecutorId() + " for Task not found")
+                );
+        final List<Label> labels = labelRepository.findAllById(taskDto.getLabelIds());
 
         return Task.builder()
                 .name(taskDto.getName())
