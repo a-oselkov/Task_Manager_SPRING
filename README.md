@@ -10,10 +10,13 @@
 
 **https://task-manager-8yjq.onrender.com/api-docs/swagger-ui/index.html** - documentation.
 
-http://localhost:5001/api-docs/ - documentation for local startup.
-
+___
 To run locally, use the command:
 ```
 make run
 ```
+
 When the application is launched locally, it will be available at **http://localhost:5001/**
+
+**http://localhost:5001/api-docs/** - documentation for local startup.
+
