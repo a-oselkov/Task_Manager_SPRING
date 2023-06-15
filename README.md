@@ -6,9 +6,9 @@
 
 **TASK MANAGER** | The task management system allows you to set tasks, assign performers and change their statuses. Registration and authentication are required to work with the system.
 
-**https://task-manager-8yjq.onrender.com** - deployment using **render**.
+https://task-manager-8yjq.onrender.com - deployment using **render**.
 
-**https://task-manager-8yjq.onrender.com/api-docs/swagger-ui/index.html** - documentation.
+https://task-manager-8yjq.onrender.com/api-docs/swagger-ui/index.html - documentation.
 
 ___
 To run locally, use the command:
@@ -16,7 +16,7 @@ To run locally, use the command:
 make run
 ```
 
-When the application is launched locally, it will be available at **http://localhost:5001/**
+When the application is launched locally, it will be available at http://localhost:5001/
 
-**http://localhost:5001/api-docs/** - documentation for local startup.
+http://localhost:5001/api-docs/ - documentation for local startup.
 

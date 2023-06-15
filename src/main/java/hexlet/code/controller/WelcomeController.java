@@ -12,7 +12,8 @@ public class WelcomeController {
 
     @GetMapping("/welcome")
     public String welcome() {
-        rollbar.debug("test2");
+        rollbar.info("!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!\n!!!!!!!!!!!!!\n!!!!!!!!!\n!!!!!!!!!!");
+        rollbar.debug("!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!\n!!!!!!!!!!!!!\n!!!!!!!!!\n!!!!!!!!!!");
         return "welcome";
     }
 }

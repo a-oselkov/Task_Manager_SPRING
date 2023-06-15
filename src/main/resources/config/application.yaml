@@ -25,4 +25,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
-rollbar_token: ${ROLLBAR_TOKEN}
+rollbar:
+  token: 1558fdef9ae9412faeb045774de6df3b
+  
+security:
+  jwt:
+    secret: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YXNrX21hbmFnZXIiLCJpYXQiOjE2ODY4NTU4MjAsInVzZXJuYW1lIjoiaXZhbkBnb29nbGUuY29tIiwiZXhwIjoxNjg2OTQyMjIwfQ.4MNAktbjj3WF_n0CYDC6L1RnvZF314gkGJNm8U_fj0w
