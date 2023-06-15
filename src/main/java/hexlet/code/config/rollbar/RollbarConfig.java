@@ -9,10 +9,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.util.Objects;
+
 
 @Configuration()
 @EnableWebMvc
-@ComponentScan({"hexlet.code"})
+@ComponentScan("hexlet.code")
 public class RollbarConfig {
     @Value("${rollbar_token:}")
     private String rollbarToken;
@@ -26,7 +28,8 @@ public class RollbarConfig {
     private Config getRollbarConfigs(String accessToken) {
         return RollbarSpringConfigBuilder.withAccessToken(accessToken)
                 .environment(activeProfile)
-                //.enabled(activeProfile == "prod")
+                .enabled(Objects.equals(activeProfile, "prod"))
                 .build();
     }
 }
+

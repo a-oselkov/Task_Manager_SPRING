@@ -1,5 +1,6 @@
 package hexlet.code.controller;
 
+import com.rollbar.notifier.Rollbar;
 import hexlet.code.dto.UserDto;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
@@ -39,7 +40,7 @@ public class UserController {
     private static final String ACCOUNT_OWNER = """
                 @userRepository.findById(#id).get().getEmail() == authentication.getName()
             """;
-
+    private final Rollbar rollbar;
     private final UserService userService;
     private final UserRepository userRepository;
 
@@ -49,6 +50,7 @@ public class UserController {
     )
     @GetMapping
     public List<User> getUsers() {
+        rollbar.debug("Here is some debug message");
         return userRepository.findAll();
     }
 
