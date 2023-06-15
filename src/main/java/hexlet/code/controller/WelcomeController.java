@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class WelcomeController {
     @Autowired
     private Rollbar rollbar;
+
     @GetMapping("/welcome")
     public String welcome() {
-        rollbar.info("!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!\n!!!!!!!!!!!!!\n!!!!!!!!!\n!!!!!!!!!!");
-        rollbar.debug("!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!\n!!!!!!!!!!!!!\n!!!!!!!!!\n!!!!!!!!!!");
+        rollbar.debug("test2");
         return "welcome";
     }
 }
