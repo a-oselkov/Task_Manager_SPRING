@@ -17,15 +17,15 @@ import java.util.Objects;
 })
 public class RollbarConfig {
 
-    @Value("${ROLLBAR_TOKEN}")
+    @Value("${ROLLBAR_TOKEN:}")
     private String rollbarToken;
-    @Value("${spring.profiles.active}")
+    @Value("${spring.profiles.active:}")
     private String activeProfile;
 
     @Bean
     public Rollbar rollbar() {
 
-        return new Rollbar(getRollbarConfigs("1558fdef9ae9412faeb045774de6df3b"));
+        return new Rollbar(getRollbarConfigs(rollbarToken));
     }
 
     private Config getRollbarConfigs(String accessToken) {

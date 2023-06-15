@@ -22,5 +22,3 @@ logging:
   level:
     root: INFO
     web: DEBUG
-
-rollbar_token: ${ROLLBAR_TOKEN}

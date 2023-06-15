@@ -22,5 +22,3 @@ spring:
 logging:
   level:
     ROOT: INFO
-
-rollbar_token: ${ROLLBAR_TOKEN}

@@ -25,3 +25,4 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+rollbar_token: ${ROLLBAR_TOKEN}
