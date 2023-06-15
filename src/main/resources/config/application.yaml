@@ -27,3 +27,5 @@ spring:
 
 rollbar:
   token: 1558fdef9ae9412faeb045774de6df3b
+
+rollbar_token: ${ROLLBAR_TOKEN}
