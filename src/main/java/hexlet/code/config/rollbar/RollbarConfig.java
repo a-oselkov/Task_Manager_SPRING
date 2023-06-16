@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Objects;
-
 
 @Configuration()
 @ComponentScan({
@@ -32,7 +30,7 @@ public class RollbarConfig {
 
         return RollbarSpringConfigBuilder.withAccessToken(accessToken)
                 .environment(activeProfile)
-                .enabled(Objects.equals(activeProfile, "prod"))
+                //.enabled(Objects.equals(activeProfile, "prod"))
                 .build();
     }
 }
