@@ -40,6 +40,7 @@ public class User {
 
     @Email
     @Column(unique = true)
+    @NotBlank
     private String email;
 
     @NotBlank

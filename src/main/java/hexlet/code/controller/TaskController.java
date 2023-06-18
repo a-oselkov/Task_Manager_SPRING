@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class TaskController {
     private final TaskRepository taskRepository;
 
     @Operation(summary = "Get a list of all tasks")
+    @SecurityRequirement(name = "Bearer Authentication")
     @ApiResponse(responseCode = "200", description = "List of tasks",
             content = @Content(schema = @Schema(implementation = Task.class))
     )
@@ -52,6 +54,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Get a task by its id")
+    @SecurityRequirement(name = "Bearer Authentication")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the task",
                     content = @Content(schema = @Schema(implementation = Task.class))),
@@ -64,6 +67,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Create a new task")
+    @SecurityRequirement(name = "Bearer Authentication")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Task created",
                     content = @Content(schema = @Schema(implementation = Task.class))),
@@ -77,6 +81,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Update the task")
+    @SecurityRequirement(name = "Bearer Authentication")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task updated",
                     content = @Content(schema = @Schema(implementation = Task.class))),
@@ -91,6 +96,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Delete the task")
+    @SecurityRequirement(name = "Bearer Authentication")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task deleted"),
             @ApiResponse(responseCode = "403", description = "Access denied"),

@@ -27,7 +27,7 @@ spring:
 
 rollbar:
   token: 1558fdef9ae9412faeb045774de6df3b
-  
+
 security:
   jwt:
-    secret: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YXNrX21hbmFnZXIiLCJpYXQiOjE2ODY4NTU4MjAsInVzZXJuYW1lIjoiaXZhbkBnb29nbGUuY29tIiwiZXhwIjoxNjg2OTQyMjIwfQ.4MNAktbjj3WF_n0CYDC6L1RnvZF314gkGJNm8U_fj0w
+    secret: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YXNrX21hbmFnZXIiLCJpYXQiOjE2ODcxMTU3NjQsInVzZXJuYW1lIjoiZW1haWxAZW1haWwuY29tIiwiZXhwIjoxNjg3MjAyMTY0fQ.Db1I0FAfBTczvwiVgx1f25A2RJ4riWP4qlsHq4yFL9A
