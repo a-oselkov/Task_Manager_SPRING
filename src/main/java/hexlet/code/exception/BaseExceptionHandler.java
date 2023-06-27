@@ -1,4 +1,4 @@
-package hexlet.code;
+package hexlet.code.exception;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;

@@ -37,8 +37,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task updateTask(final Long id, final TaskDto taskDto) {
-        final Task task = fromDto(taskDto);
-        task.setId(id);
+        final Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Task with id = " + id + " not found"));
+        merge(task, taskDto);
         return taskRepository.save(task);
     }
 
@@ -62,5 +63,14 @@ public class TaskServiceImpl implements TaskService {
                 .executor(executor)
                 .labels(labels)
                 .build();
+    }
+    private void merge(final Task task, final TaskDto taskDto) {
+        final Task newTask = fromDto(taskDto);
+        task.setName(newTask.getName());
+        task.setDescription(newTask.getDescription());
+        task.setTaskStatus(newTask.getTaskStatus());
+        task.setAuthor(newTask.getAuthor());
+        task.setExecutor(newTask.getExecutor());
+        task.setLabels(newTask.getLabels());
     }
 }

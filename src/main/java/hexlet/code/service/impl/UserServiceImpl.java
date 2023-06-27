@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -27,8 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(final Long id, final UserDto userDto) {
-        final User user = fromDto(userDto);
-        user.setId(id);
+        final User user = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User with id = " + id + " not found"));
+        merge(user, userDto);
         return userRepository.save(user);
     }
 
@@ -48,5 +51,12 @@ public class UserServiceImpl implements UserService {
                 .email(userDto.getEmail())
                 .password(password)
                 .build();
+    }
+    private void merge(final User user, final UserDto userDto) {
+        final User newUser = fromDto(userDto);
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
+        user.setEmail(newUser.getEmail());
+        user.setPassword(newUser.getPassword());
     }
 }

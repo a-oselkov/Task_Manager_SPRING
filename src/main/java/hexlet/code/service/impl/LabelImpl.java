@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -23,13 +25,18 @@ public class LabelImpl implements LabelService {
 
     @Override
     public Label updateLabel(final Long id, final LabelDto labelDto) {
-        final Label label = fromDto(labelDto);
-        label.setId(id);
+        final Label label = labelRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Label with id = " + id + " not found"));
+        merge(label, labelDto);
         return labelRepository.save(label);
     }
     private Label fromDto(LabelDto labelDto) {
         return Label.builder()
                 .name(labelDto.getName())
                 .build();
+    }
+    private void merge(final Label label, final LabelDto labelDto) {
+        final Label newLabel = fromDto(labelDto);
+        label.setName(newLabel.getName());
     }
 }

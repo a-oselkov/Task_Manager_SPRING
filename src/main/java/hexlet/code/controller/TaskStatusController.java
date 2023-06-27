@@ -60,7 +60,7 @@ public class TaskStatusController {
     @GetMapping(TASKSTATUS_ID)
     public TaskStatus getTaskStatus(@PathVariable final Long id) {
         return taskStatusRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Status not found"));
+                .orElseThrow(() -> new NoSuchElementException("Task status not found"));
     }
 
     @Operation(summary = "Create a new task status")

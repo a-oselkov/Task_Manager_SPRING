@@ -75,8 +75,7 @@ public class UserController {
     })
     @PostMapping
     @ResponseStatus(CREATED)
-    public User createUser(@Parameter(description = "Data for creating a user")
-                           @RequestBody @Valid final UserDto userDto) {
+    public User createUser(@RequestBody @Valid final UserDto userDto) {
         return userService.createUser(userDto);
     }
 
@@ -93,7 +92,6 @@ public class UserController {
     @PreAuthorize(ACCOUNT_OWNER)
     public User updateUser(@Parameter(description = "Id of user to be updated")
                            @PathVariable final Long id,
-                           @Parameter(description = "Data for updating a user")
                            @RequestBody @Valid final UserDto userDto) {
         return userService.updateUser(id, userDto);
     }
