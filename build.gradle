@@ -25,6 +25,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'de.plushnikov.lombok-intellij-plugin:lombok-plugin:0.5'
 	testImplementation 'org.projectlombok:lombok:1.18.26'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'
