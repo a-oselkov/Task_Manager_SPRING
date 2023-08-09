@@ -6,10 +6,13 @@
 
 **TASK MANAGER** | The task management system allows you to set tasks, assign performers and change their statuses. Registration and authentication are required to work with the system.
 
-https://task-manager-8yjq.onrender.com - deployment using **render**.
+You can register a user or use a test user:
+login **test@user.com**
+password **111**
+
+https://task-manager-8yjq.onrender.com/users - deployment using **render**.
 
 https://task-manager-8yjq.onrender.com/api-docs/swagger-ui/index.html - documentation.
-
 ___
 To run locally, use the command:
 ```
