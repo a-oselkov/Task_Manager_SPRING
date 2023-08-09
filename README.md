@@ -6,9 +6,13 @@
 
 **TASK MANAGER** | The task management system allows you to set tasks, assign performers and change their statuses. Registration and authentication are required to work with the system.
 
-You can register a user or use a test user:
+
+To get acquainted with the application, you can register a user or use the test one:
+
 login **test@user.com**
+
 password **111**
+
 
 https://task-manager-8yjq.onrender.com/users - deployment using **render**.
 
