@@ -14,11 +14,6 @@ spring:
     password: ${PGPASSWORD}
     url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
 
-  jpa:
-    show-sql: false
-    hibernate:
-      ddl-auto: create-drop
-
 logging:
   level:
     ROOT: INFO
