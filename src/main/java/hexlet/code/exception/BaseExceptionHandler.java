@@ -38,7 +38,7 @@ public class BaseExceptionHandler {
     }
 
     @ResponseStatus(BAD_REQUEST)
-    @ExceptionHandler({HttpMessageNotReadableException.class})
+    @ExceptionHandler(HttpMessageNotReadableException.class)
     public Object validationExceptionsHandler(Exception exception) {
         return exception.getMessage();
     }
@@ -46,7 +46,7 @@ public class BaseExceptionHandler {
     @ResponseStatus(UNPROCESSABLE_ENTITY)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Object validationExceptionsHandler(DataIntegrityViolationException exception) {
-        return exception.getCause().getCause().getMessage();
+        return exception.getCause().getMessage();
     }
 
     @ResponseStatus(UNPROCESSABLE_ENTITY)

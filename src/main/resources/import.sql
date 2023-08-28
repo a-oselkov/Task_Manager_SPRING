@@ -5,4 +5,8 @@ INSERT INTO task_statuses (created_at, name) VALUES ('2023-01-01 00:00:00', 'В 
 INSERT INTO task_statuses (created_at, name) VALUES ('2023-01-01 00:00:00', 'Завершена');
 
 INSERT INTO labels (created_at, name) VALUES ('2022-10-10 00:00:00', 'Frontend');
-INSERT INTO labels  (created_at, name) VALUES ('2022-10-10 00:00:00', 'Backend');
+INSERT INTO labels (created_at, name) VALUES ('2022-10-10 00:00:00', 'Backend');
+
+INSERT INTO tasks (created_at, name, description, task_status_id, author_id, executor_id) VALUES ('2022-10-10 00:00:00', 'Проект №5', 'Внести изменения', 1, 1, 1);
+
+INSERT INTO task_label (task_id, label_id) VALUES (1, 1), (1,2);
