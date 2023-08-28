@@ -1,187 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 1693047024313-4
-    author: sasha (generated)
-    changes:
-    - addColumn:
-        columns:
-        - column:
-            name: password
-            type: varchar(255)
-        tableName: users
-- changeSet:
-    id: 1693047024313-5
-    author: sasha (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: task_id
-        baseTableName: task_label
-        constraintName: FK45j1msvaecla2batb854mv44o
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: tasks
-        validate: true
-- changeSet:
-    id: 1693047024313-6
-    author: sasha (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: task_status_id
-        baseTableName: tasks
-        constraintName: FK7xndk7y2uk29wdu734xyutbqe
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: task_statuses
-        validate: true
-- changeSet:
-    id: 1693047024313-7
-    author: sasha (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: executor_id
-        baseTableName: tasks
-        constraintName: FKbrg922bkqn5m7212jsqjg6ioe
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: users
-        validate: true
-- changeSet:
-    id: 1693047024313-8
-    author: sasha (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: label_id
-        baseTableName: task_label
-        constraintName: FKdcng3qpmqco6u3ofi7i939bnx
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: labels
-        validate: true
-- changeSet:
-    id: 1693047024313-9
-    author: sasha (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: author_id
-        baseTableName: tasks
-        constraintName: FKhods8r8oyyx7tuj3c91ki2sk1
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: users
-        validate: true
-- changeSet:
-    id: 1693047024313-10
-    author: sasha (generated)
-    changes:
-    - dropForeignKeyConstraint:
-        baseTableName: topics
-        constraintName: topics_user_id_fkey
-- changeSet:
-    id: 1693047024313-11
-    author: sasha (generated)
-    changes:
-    - dropUniqueConstraint:
-        constraintName: users_email_key
-        tableName: users
-- changeSet:
-    id: 1693047024313-12
-    author: sasha (generated)
-    changes:
-    - dropUniqueConstraint:
-        constraintName: users_username_key
-        tableName: users
-- changeSet:
-    id: 1693047024313-13
-    author: sasha (generated)
-    changes:
-    - dropTable:
-        tableName: blog_posts
-- changeSet:
-    id: 1693047024313-14
-    author: sasha (generated)
-    changes:
-    - dropTable:
-        tableName: courses
-- changeSet:
-    id: 1693047024313-15
-    author: sasha (generated)
-    changes:
-    - dropTable:
-        tableName: events
-- changeSet:
-    id: 1693047024313-16
-    author: sasha (generated)
-    changes:
-    - dropTable:
-        tableName: topics
-- changeSet:
-    id: 1693047024313-17
-    author: sasha (generated)
-    changes:
-    - dropColumn:
-        columnName: birthday
-        tableName: users
-- changeSet:
-    id: 1693047024313-18
-    author: sasha (generated)
-    changes:
-    - dropColumn:
-        columnName: email_confirmed
-        tableName: users
-- changeSet:
-    id: 1693047024313-19
-    author: sasha (generated)
-    changes:
-    - dropColumn:
-        columnName: gender
-        tableName: users
-- changeSet:
-    id: 1693047024313-20
-    author: sasha (generated)
-    changes:
-    - dropColumn:
-        columnName: password_digest
-        tableName: users
-- changeSet:
-    id: 1693047024313-21
-    author: sasha (generated)
-    changes:
-    - dropColumn:
-        columnName: username
-        tableName: users
-- changeSet:
-    id: 1693047024313-1
-    author: sasha (generated)
-    changes:
-    - dropNotNullConstraint:
-        columnDataType: timestamp(6)
-        columnName: created_at
-        tableName: users
-- changeSet:
-    id: 1693047024313-2
-    author: sasha (generated)
-    changes:
-    - modifyDataType:
-        columnName: first_name
-        newDataType: varchar(255)
-        tableName: users
-- changeSet:
-    id: 1693047024313-3
-    author: sasha (generated)
-    changes:
-    - modifyDataType:
-        columnName: last_name
-        newDataType: varchar(255)
-        tableName: users
-
-databaseChangeLog:
-- changeSet:
-    id: 1693047350522-1
+    id: 1693237071611-1
     author: sasha (generated)
     changes:
     - createTable:
@@ -202,7 +21,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: labels
 - changeSet:
-    id: 1693047350522-2
+    id: 1693237071611-2
     author: sasha (generated)
     changes:
     - createTable:
@@ -219,7 +38,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: task_label
 - changeSet:
-    id: 1693047350522-3
+    id: 1693237071611-3
     author: sasha (generated)
     changes:
     - createTable:
@@ -240,7 +59,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: task_statuses
 - changeSet:
-    id: 1693047350522-4
+    id: 1693237071611-4
     author: sasha (generated)
     changes:
     - createTable:
@@ -273,7 +92,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: tasks
 - changeSet:
-    id: 1693047350522-5
+    id: 1693237071611-5
     author: sasha (generated)
     changes:
     - createTable:
@@ -303,7 +122,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: users
 - changeSet:
-    id: 1693047350522-6
+    id: 1693237071611-6
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
@@ -316,7 +135,7 @@ databaseChangeLog:
         referencedTableName: tasks
         validate: true
 - changeSet:
-    id: 1693047350522-7
+    id: 1693237071611-7
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
@@ -329,7 +148,7 @@ databaseChangeLog:
         referencedTableName: task_statuses
         validate: true
 - changeSet:
-    id: 1693047350522-8
+    id: 1693237071611-8
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
@@ -342,7 +161,7 @@ databaseChangeLog:
         referencedTableName: users
         validate: true
 - changeSet:
-    id: 1693047350522-9
+    id: 1693237071611-9
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
@@ -355,7 +174,7 @@ databaseChangeLog:
         referencedTableName: labels
         validate: true
 - changeSet:
-    id: 1693047350522-10
+    id: 1693237071611-10
     author: sasha (generated)
     changes:
     - addForeignKeyConstraint:
