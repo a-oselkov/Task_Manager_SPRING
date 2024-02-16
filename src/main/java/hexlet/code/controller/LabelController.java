@@ -57,9 +57,9 @@ public class LabelController {
             @ApiResponse(responseCode = "404", description = "Task not found")
     })
     @GetMapping(LABEL_ID)
-    public Label getUser(@PathVariable final Long id) {
+    public Label getLabel(@PathVariable final Long id) {
         return labelRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " not found"));
+                .orElseThrow(() -> new NoSuchElementException("Label with id " + id + " not found"));
     }
 
     @Operation(summary = "Create a new label")

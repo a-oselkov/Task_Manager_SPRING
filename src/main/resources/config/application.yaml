@@ -8,6 +8,8 @@ springdoc:
     path: /api-docs/
 
 spring:
+  profiles:
+    active: dev
   application:
     name: task_manager
 
@@ -28,6 +30,7 @@ spring:
 rollbar:
   token: 1558fdef9ae9412faeb045774de6df3b
 
-security:
-  jwt:
-    secret: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YXNrX21hbmFnZXIiLCJpYXQiOjE2ODcxMTU3NjQsInVzZXJuYW1lIjoiZW1haWxAZW1haWwuY29tIiwiZXhwIjoxNjg3MjAyMTY0fQ.Db1I0FAfBTczvwiVgx1f25A2RJ4riWP4qlsHq4yFL9A
+#security:
+#  jwt:
+#    secret: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YXNrX21hbmFnZXIiLCJpYXQiOjE2ODcxMTU3NjQsInVzZXJuYW1lIjoiZW1haWxAZW1haWwuY29tIiwiZXhwIjoxNjg3MjAyMTY0fQ.Db1I0FAfBTczvwiVgx1f25A2RJ4riWP4qlsHq4yFL9A
+

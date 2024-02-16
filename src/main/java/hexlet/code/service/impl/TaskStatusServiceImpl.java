@@ -28,7 +28,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
         final TaskStatus taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Task status with id = " + id + " not found"));
         merge(taskStatus, taskStatusDto);
-        return taskStatusRepository.save(taskStatus);
+        return taskStatus;
     }
 
     private TaskStatus fromDto(TaskStatusDto taskStatusDto) {

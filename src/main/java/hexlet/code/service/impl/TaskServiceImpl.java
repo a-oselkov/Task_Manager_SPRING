@@ -40,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
         final Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Task with id = " + id + " not found"));
         merge(task, taskDto);
-        return taskRepository.save(task);
+        return task;
     }
 
     private Task fromDto(TaskDto taskDto) {

@@ -28,7 +28,7 @@ public class LabelImpl implements LabelService {
         final Label label = labelRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Label with id = " + id + " not found"));
         merge(label, labelDto);
-        return labelRepository.save(label);
+        return label;
     }
     private Label fromDto(LabelDto labelDto) {
         return Label.builder()

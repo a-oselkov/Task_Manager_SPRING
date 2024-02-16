@@ -34,7 +34,7 @@ public class BaseExceptionHandler {
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
     public Object noSuchElementExceptionHandler(NoSuchElementException exception) {
-        return exception.getMessage();
+        return exception.getCause().getMessage();
     }
 
     @ResponseStatus(BAD_REQUEST)
@@ -58,7 +58,7 @@ public class BaseExceptionHandler {
     @ResponseStatus(FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
     public Object accessDeniedException(AccessDeniedException exception) {
-        return exception.getMessage();
+        return exception.getCause().getMessage();
     }
 
     @ResponseStatus(UNAUTHORIZED)

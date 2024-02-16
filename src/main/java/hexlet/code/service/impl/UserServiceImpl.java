@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         final User user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User with id = " + id + " not found"));
         merge(user, userDto);
-        return userRepository.save(user);
+        return user;
     }
 
     @Override
