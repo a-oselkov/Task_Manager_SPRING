@@ -1,4 +1,4 @@
-package hexlet.code.controller;
+package hexlet.code.controller.impl;
 
 import com.rollbar.notifier.Rollbar;
 import org.springframework.beans.factory.annotation.Autowired;

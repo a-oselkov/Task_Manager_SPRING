@@ -20,8 +20,8 @@ import java.util.List;
 
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
 import static hexlet.code.config.security.SecurityConfig.LOGIN;
-import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
-import static hexlet.code.controller.UserController.USER_ID;
+import static hexlet.code.controller.impl.UserControllerImpl.USER_CONTROLLER_PATH;
+import static hexlet.code.controller.impl.UserControllerImpl.USER_ID;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME_NEW;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles(TEST_PROFILE)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigTests.class)
-public class UserControllerTest {
+public class UserControllerImplTest {
 
     @Autowired
     private UserRepository userRepository;

@@ -19,9 +19,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.List;
 
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
-import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
-import static hexlet.code.controller.LabelController.LABEL_ID;
-import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
+import static hexlet.code.controller.impl.LabelControllerImpl.LABEL_CONTROLLER_PATH;
+import static hexlet.code.controller.impl.LabelControllerImpl.LABEL_ID;
+import static hexlet.code.controller.impl.UserControllerImpl.USER_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.TEST_LABEL;
 import static hexlet.code.utils.TestUtils.TEST_LABEL_UPD;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles(TEST_PROFILE)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigTests.class)
-class LabelControllerTest {
+class LabelControllerImplTest {
 
     @Autowired
     private LabelRepository labelRepository;
