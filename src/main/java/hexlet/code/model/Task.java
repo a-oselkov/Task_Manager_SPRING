@@ -40,6 +40,7 @@ public class Task {
 
     @NotNull
     private String name;
+
     private String description;
 
     @NotNull

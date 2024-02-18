@@ -45,7 +45,8 @@ dependencies {
 	annotationProcessor(
 			'org.projectlombok:lombok:1.18.28',
 			'com.querydsl:querydsl-apt:5.0.0:jakarta',
-			'jakarta.persistence:jakarta.persistence-api:3.1.0'
+			'jakarta.persistence:jakarta.persistence-api:3.1.0',
+			'org.mapstruct:mapstruct-processor:1.5.5.Final'
 	)
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
@@ -59,7 +60,8 @@ dependencies {
 			'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0',
 			'org.liquibase:liquibase-core',
 			'com.querydsl:querydsl-jpa:5.0.0:jakarta',
-			'com.rollbar:rollbar-spring-boot-webmvc:1.10.0'
+			'com.rollbar:rollbar-spring-boot-webmvc:1.10.0',
+			'org.mapstruct:mapstruct:1.5.5.Final'
 
 	)
 

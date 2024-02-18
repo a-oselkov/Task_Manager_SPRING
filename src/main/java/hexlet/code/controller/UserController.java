@@ -34,6 +34,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @AllArgsConstructor
 @RequestMapping("${base-url}" + USER_CONTROLLER_PATH)
 public class UserController {
+
     public static final String USER_CONTROLLER_PATH = "/users";
     public static final String USER_ID = "/{id}";
     private static final String ACCOUNT_OWNER = """

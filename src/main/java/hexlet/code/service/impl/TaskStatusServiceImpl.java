@@ -1,6 +1,7 @@
 package hexlet.code.service.impl;
 
 import hexlet.code.dto.TaskStatusDto;
+import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.service.TaskStatusService;
@@ -16,10 +17,11 @@ import java.util.NoSuchElementException;
 public class TaskStatusServiceImpl implements TaskStatusService {
 
     private final TaskStatusRepository taskStatusRepository;
+    private final TaskStatusMapper mapper;
 
     @Override
     public TaskStatus createTaskStatus(final TaskStatusDto taskStatusDto) {
-        final TaskStatus taskStatus = fromDto(taskStatusDto);
+        final TaskStatus taskStatus = mapper.toTaskStatus(taskStatusDto);
         return taskStatusRepository.save(taskStatus);
     }
 
@@ -27,17 +29,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
     public TaskStatus updateTaskStatus(final Long id, final TaskStatusDto taskStatusDto) {
         final TaskStatus taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Task status with id = " + id + " not found"));
-        merge(taskStatus, taskStatusDto);
+        mapper.updateTaskStatus(taskStatus, taskStatusDto);
         return taskStatus;
-    }
-
-    private TaskStatus fromDto(TaskStatusDto taskStatusDto) {
-        return TaskStatus.builder()
-                .name(taskStatusDto.getName())
-                .build();
-    }
-    private void merge(final TaskStatus taskStatus, final TaskStatusDto taskStatusDto) {
-        final TaskStatus newTaskStatus = fromDto(taskStatusDto);
-        taskStatus.setName(newTaskStatus.getName());
     }
 }

@@ -34,6 +34,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @AllArgsConstructor
 @RequestMapping("${base-url}" + TASK_CONTROLLER_PATH)
 public class TaskController {
+
     public static final String TASK_CONTROLLER_PATH = "/tasks";
     public static final String TASK_ID = "/{id}";
     private static final String TASK_OWNER =

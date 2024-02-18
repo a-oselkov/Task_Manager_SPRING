@@ -27,6 +27,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 @Entity
 @Table(name = "task_statuses")
 public class TaskStatus {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;

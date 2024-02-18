@@ -1,6 +1,7 @@
 package hexlet.code.service.impl;
 
 import hexlet.code.dto.TaskDto;
+import hexlet.code.mapper.TaskMapper;
 import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
@@ -28,6 +29,7 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     private final TaskStatusRepository taskStatusRepository;
     private final LabelRepository labelRepository;
+    private final TaskMapper mapper;
 
     @Override
     public Task createTask(final TaskDto taskDto) {
@@ -39,7 +41,7 @@ public class TaskServiceImpl implements TaskService {
     public Task updateTask(final Long id, final TaskDto taskDto) {
         final Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Task with id = " + id + " not found"));
-        merge(task, taskDto);
+        mapper.updateTask(task, fromDto(taskDto));
         return task;
     }
 
@@ -63,14 +65,5 @@ public class TaskServiceImpl implements TaskService {
                 .executor(executor)
                 .labels(labels)
                 .build();
-    }
-    private void merge(final Task task, final TaskDto taskDto) {
-        final Task newTask = fromDto(taskDto);
-        task.setName(newTask.getName());
-        task.setDescription(newTask.getDescription());
-        task.setTaskStatus(newTask.getTaskStatus());
-        task.setAuthor(newTask.getAuthor());
-        task.setExecutor(newTask.getExecutor());
-        task.setLabels(newTask.getLabels());
     }
 }

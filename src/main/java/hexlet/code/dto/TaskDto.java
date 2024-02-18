@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDto {
+
     @NotBlank
     private String name;
 

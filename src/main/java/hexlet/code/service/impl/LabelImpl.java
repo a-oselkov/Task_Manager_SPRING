@@ -1,6 +1,7 @@
 package hexlet.code.service.impl;
 
 import hexlet.code.dto.LabelDto;
+import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.service.LabelService;
@@ -16,10 +17,11 @@ import java.util.NoSuchElementException;
 public class LabelImpl implements LabelService {
 
     private final LabelRepository labelRepository;
+    private final LabelMapper mapper;
 
     @Override
     public Label createLabel(final LabelDto labelDto) {
-        final Label label = fromDto(labelDto);
+        final Label label = mapper.toLabel(labelDto);
         return labelRepository.save(label);
     }
 
@@ -27,16 +29,7 @@ public class LabelImpl implements LabelService {
     public Label updateLabel(final Long id, final LabelDto labelDto) {
         final Label label = labelRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Label with id = " + id + " not found"));
-        merge(label, labelDto);
+        mapper.updateLabel(label, labelDto);
         return label;
-    }
-    private Label fromDto(LabelDto labelDto) {
-        return Label.builder()
-                .name(labelDto.getName())
-                .build();
-    }
-    private void merge(final Label label, final LabelDto labelDto) {
-        final Label newLabel = fromDto(labelDto);
-        label.setName(newLabel.getName());
     }
 }
