@@ -92,12 +92,12 @@ class TaskControllerImplTest {
                 .andExpect(status().isCreated());
 
         final Task task = taskRepository.findAll().get(0);
-        final User executor = userRepository.findById(taskDto.getExecutorId()).get();
+        final User executor = userRepository.findById(taskDto.executorId()).get();
         final List<Label> labels = labelRepository.findAll();
 
         assertThat(taskRepository.count()).isEqualTo(1);
-        assertThat(task.getName()).isEqualTo(taskDto.getName());
-        assertThat(task.getDescription()).isEqualTo(taskDto.getDescription());
+        assertThat(task.getName()).isEqualTo(taskDto.name());
+        assertThat(task.getDescription()).isEqualTo(taskDto.description());
         assertThat(task.getAuthor()).isEqualTo(userRepository.findByEmail(TEST_USERNAME).get());
         assertThat(task.getExecutor()).isEqualTo(executor);
         assertThat(task.getLabels().get(0)).isEqualTo(labels.get(0));
@@ -136,8 +136,6 @@ class TaskControllerImplTest {
     public void updateTask() throws Exception {
         utils.regByAuthorizedUser(taskDto, TASK_CONTROLLER_PATH);
         final Task oldTask = taskRepository.findAll().get(0);
-        taskDto.setName("updName");
-        taskDto.setDescription("updDescription");
 
         final MockHttpServletRequestBuilder updateRequest = put(
                 TASK_CONTROLLER_PATH + TASK_ID, oldTask.getId())
@@ -146,13 +144,11 @@ class TaskControllerImplTest {
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
 
         final Task updTask = taskRepository.findAll().get(0);
-        final User executor = userRepository.findById(taskDto.getExecutorId()).get();
+        final User executor = userRepository.findById(taskDto.executorId()).get();
         final List<Label> labels = labelRepository.findAll();
 
         assertThat(taskRepository.existsById(oldTask.getId())).isTrue();
         assertThat(updTask.getId()).isEqualTo(oldTask.getId());
-        assertThat(updTask.getName()).isEqualTo(taskDto.getName());
-        assertThat(updTask.getDescription()).isEqualTo(taskDto.getDescription());
         assertThat(updTask.getAuthor()).isEqualTo(userRepository.findByEmail(TEST_USERNAME).get());
         assertThat(updTask.getExecutor()).isEqualTo(executor);
         assertThat(updTask.getLabels().get(0)).isEqualTo(labels.get(0));

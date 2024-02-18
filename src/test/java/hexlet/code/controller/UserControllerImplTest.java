@@ -56,9 +56,9 @@ public class UserControllerImplTest {
         assertThat(userRepository.count()).isEqualTo(1);
 
         final User user = userRepository.findByEmail(TEST_USERNAME).get();
-        assertThat(user.getFirstName()).isEqualTo(utils.getTestRegistrationDto().getFirstName());
-        assertThat(user.getLastName()).isEqualTo(utils.getTestRegistrationDto().getLastName());
-        assertThat(user.getEmail()).isEqualTo(utils.getTestRegistrationDto().getEmail());
+        assertThat(user.getFirstName()).isEqualTo(utils.getTestRegistrationDto().firstName());
+        assertThat(user.getLastName()).isEqualTo(utils.getTestRegistrationDto().lastName());
+        assertThat(user.getEmail()).isEqualTo(utils.getTestRegistrationDto().email());
     }
 
     @Test
@@ -109,8 +109,8 @@ public class UserControllerImplTest {
     public void login() throws Exception {
         utils.regByNotAuthorizedUser(utils.getTestRegistrationDto(), USER_CONTROLLER_PATH);
         final LoginDto loginDto = new LoginDto(
-                utils.getTestRegistrationDto().getEmail(),
-                utils.getTestRegistrationDto().getPassword()
+                utils.getTestRegistrationDto().email(),
+                utils.getTestRegistrationDto().password()
         );
         final MockHttpServletRequestBuilder loginRequest = post(LOGIN)
                 .content(TestUtils.asJson(loginDto))
@@ -121,8 +121,8 @@ public class UserControllerImplTest {
     @Test
     public void loginFail() throws Exception {
         final LoginDto loginDto = new LoginDto(
-                utils.getTestRegistrationDto().getEmail(),
-                utils.getTestRegistrationDto().getPassword()
+                utils.getTestRegistrationDto().email(),
+                utils.getTestRegistrationDto().password()
         );
         final MockHttpServletRequestBuilder loginRequest = post(LOGIN)
                 .content(TestUtils.asJson(loginDto))
@@ -147,9 +147,9 @@ public class UserControllerImplTest {
 
         final User newUser = userRepository.findByEmail(TEST_USERNAME_NEW).get();
         assertThat(userRepository.existsById(userId)).isTrue();
-        assertThat(newUser.getFirstName()).isEqualTo(userDto.getFirstName());
-        assertThat(newUser.getLastName()).isEqualTo(userDto.getLastName());
-        assertThat(newUser.getEmail()).isEqualTo(userDto.getEmail());
+        assertThat(newUser.getFirstName()).isEqualTo(userDto.firstName());
+        assertThat(newUser.getLastName()).isEqualTo(userDto.lastName());
+        assertThat(newUser.getEmail()).isEqualTo(userDto.email());
     }
 
     @Test

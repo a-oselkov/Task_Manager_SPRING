@@ -46,31 +46,21 @@ public class TestUtils {
     public static final String TEST_LABEL = "java";
     public static final String TEST_LABEL_UPD = "python";
 
-    private final UserDto testUserDto = new UserDto(
-            "fname",
-            "lname",
-            TEST_USERNAME,
-            "pwd"
-    );
-
-    private final TaskStatusDto testTaskStatusDto = new TaskStatusDto(
-            TEST_TASKSTATUS
-    );
-
-    private final LabelDto testLabelDto = new LabelDto(
-            TEST_LABEL
-    );
-
     public UserDto getTestRegistrationDto() {
-        return testUserDto;
+        return new UserDto(
+                "fname",
+                "lname",
+                TEST_USERNAME,
+                "pwd"
+        );
     }
 
     public TaskStatusDto getTestTaskStatusDto() {
-        return testTaskStatusDto;
+        return new TaskStatusDto(TEST_TASKSTATUS);
     }
 
     public LabelDto getTestLabelDto() {
-        return testLabelDto;
+        return new LabelDto(TEST_LABEL);
     }
 
     public void tearDown() {

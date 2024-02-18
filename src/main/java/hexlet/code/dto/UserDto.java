@@ -4,27 +4,10 @@ package hexlet.code.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
+public record UserDto(@NotBlank String firstName,
+                      @NotBlank String lastName,
+                      @Email @NotBlank String email,
+                      @NotBlank @Size(min = 3) String password) {
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserDto {
-
-    @NotBlank
-    private String firstName;
-
-    @NotBlank
-    private String lastName;
-
-    @Email
-    @NotBlank
-    private String email;
-
-    @NotBlank
-    @Size(min = 3)
-    private String password;
 }

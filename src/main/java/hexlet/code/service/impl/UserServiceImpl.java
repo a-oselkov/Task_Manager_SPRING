@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(final UserDto userDto) {
-        final String password = passwordEncoder.encode(userDto.getPassword());
+        final String password = passwordEncoder.encode(userDto.password());
         final User user = mapper.toUser(userDto);
         user.setPassword(password);
         return userRepository.save(user);
