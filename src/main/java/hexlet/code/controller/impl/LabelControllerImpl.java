@@ -2,7 +2,6 @@ package hexlet.code.controller.impl;
 
 import hexlet.code.controller.LabelController;
 import hexlet.code.dto.LabelDto;
-import hexlet.code.exception.LabelNotFoundException;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.service.LabelService;
@@ -41,8 +40,7 @@ public class LabelControllerImpl implements LabelController {
 
     @GetMapping(LABEL_ID)
     public Label getLabel(@PathVariable final Long id) {
-        return labelRepository.findById(id)
-                .orElseThrow(() -> new LabelNotFoundException("Label not found"));
+        return labelService.getLabel(id);
     }
 
     @PostMapping
@@ -62,6 +60,6 @@ public class LabelControllerImpl implements LabelController {
     @DeleteMapping(LABEL_ID)
     @PreAuthorize("hasAuthority('USER')")
     public void deleteUser(@PathVariable final Long id) {
-        labelRepository.deleteById(id);
+        labelService.deleteLabel(id);
     }
 }

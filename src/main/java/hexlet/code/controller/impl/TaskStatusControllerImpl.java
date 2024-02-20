@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static hexlet.code.controller.impl.TaskStatusControllerImpl.TASKSTATUS_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -41,8 +40,7 @@ public class TaskStatusControllerImpl implements TaskStatusController {
 
     @GetMapping(TASKSTATUS_ID)
     public TaskStatus getTaskStatus(@PathVariable final Long id) {
-        return taskStatusRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Task status not found"));
+        return taskStatusService.getTaskStatus(id);
     }
 
     @PostMapping
@@ -62,6 +60,6 @@ public class TaskStatusControllerImpl implements TaskStatusController {
     @DeleteMapping(TASKSTATUS_ID)
     @PreAuthorize("hasAuthority('USER')")
     public void deleteTaskStatus(@PathVariable final Long id) {
-        taskStatusRepository.deleteById(id);
+        taskStatusService.deleteTaskStatus(id);
     }
 }

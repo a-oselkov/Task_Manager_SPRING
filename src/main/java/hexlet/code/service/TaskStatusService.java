@@ -7,4 +7,7 @@ public interface TaskStatusService {
 
     TaskStatus createTaskStatus(TaskStatusDto taskStatusDto);
     TaskStatus updateTaskStatus(Long id, TaskStatusDto taskStatusDto);
+    TaskStatus getTaskStatus(Long id);
+    void deleteTaskStatus(Long id);
+
 }

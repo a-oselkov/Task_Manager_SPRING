@@ -5,7 +5,6 @@ import hexlet.code.dto.UserDto;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
-import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,8 +44,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @GetMapping(USER_ID)
-    public User getUser(@Parameter(description = "Id of user to be searched")
-                        @PathVariable final Long id) {
+    public User getUser(@PathVariable final Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User with id " + id + " not found"));
     }
@@ -59,17 +57,15 @@ public class UserControllerImpl implements UserController {
 
     @PutMapping(USER_ID)
     @PreAuthorize(ACCOUNT_OWNER)
-    public User updateUser(@Parameter(description = "Id of user to be updated")
-                           @PathVariable final Long id,
+    public User updateUser(@PathVariable final Long id,
                            @RequestBody @Valid final UserDto userDto) {
         return userService.updateUser(id, userDto);
     }
 
     @DeleteMapping(USER_ID)
     @PreAuthorize(ACCOUNT_OWNER)
-    public void deleteUser(@Parameter(description = "Id of user to be deleted")
-                           @PathVariable final Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(@PathVariable final Long id) {
+        userService.deleteUser(id);
     }
 }
 

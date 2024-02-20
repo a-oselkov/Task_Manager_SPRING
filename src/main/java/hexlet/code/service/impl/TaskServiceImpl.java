@@ -1,6 +1,7 @@
 package hexlet.code.service.impl;
 
 import hexlet.code.dto.TaskDto;
+import hexlet.code.exception.TaskNotFoundException;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.model.Label;
 import hexlet.code.model.Task;
@@ -43,6 +44,18 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new NoSuchElementException("Task with id = " + id + " not found"));
         mapper.updateTask(task, fromDto(taskDto));
         return task;
+    }
+
+    @Override
+    public Task getTask(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException("Task not found"));
+    }
+
+    @Override
+    public void deleteTask(Long id) {
+        Task task = getTask(id);
+        taskRepository.delete(task);
     }
 
     private Task fromDto(TaskDto taskDto) {

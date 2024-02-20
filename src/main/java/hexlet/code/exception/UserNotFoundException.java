@@ -1,8 +1,8 @@
 package hexlet.code.exception;
 
-public class UserNotFoundException extends NotFoundException{
+public class UserNotFoundException extends NotFoundException {
 
-    UserNotFoundException(String message) {
+    public UserNotFoundException(String message) {
         super(message);
     }
 }

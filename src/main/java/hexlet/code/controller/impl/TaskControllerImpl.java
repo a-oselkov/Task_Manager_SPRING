@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.NoSuchElementException;
-
 import static hexlet.code.controller.impl.TaskControllerImpl.TASK_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -51,8 +49,7 @@ public class TaskControllerImpl implements TaskController {
 
     @GetMapping(TASK_ID)
     public Task getTask(@PathVariable final Long id) {
-        return taskRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Task with id " + id + " not found"));
+        return taskService.getTask(id);
     }
 
     @PostMapping
@@ -81,6 +78,6 @@ public class TaskControllerImpl implements TaskController {
     @DeleteMapping(TASK_ID)
     @PreAuthorize(TASK_OWNER)
     public void deleteTask(@PathVariable final Long id) {
-        taskRepository.deleteById(id);
+        taskService.deleteTask(id);
     }
 }

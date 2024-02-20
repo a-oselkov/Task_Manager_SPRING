@@ -1,6 +1,7 @@
 package hexlet.code.service.impl;
 
 import hexlet.code.dto.TaskStatusDto;
+import hexlet.code.exception.TaskStatusException;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
@@ -31,5 +32,17 @@ public class TaskStatusServiceImpl implements TaskStatusService {
                 .orElseThrow(() -> new NoSuchElementException("Task status with id = " + id + " not found"));
         mapper.updateTaskStatus(taskStatus, taskStatusDto);
         return taskStatus;
+    }
+
+    @Override
+    public TaskStatus getTaskStatus(Long id) {
+        return taskStatusRepository.findById(id)
+                .orElseThrow(() -> new TaskStatusException("Task status not found"));
+    }
+
+    @Override
+    public void deleteTaskStatus(Long id) {
+        TaskStatus taskStatus = getTaskStatus(id);
+        taskStatusRepository.delete(taskStatus);
     }
 }

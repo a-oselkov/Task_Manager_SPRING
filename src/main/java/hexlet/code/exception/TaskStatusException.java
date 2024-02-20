@@ -1,8 +1,8 @@
 package hexlet.code.exception;
 
-public class TaskStatusException extends NotFoundException{
+public class TaskStatusException extends NotFoundException {
 
-    TaskStatusException(String message) {
+    public TaskStatusException(String message) {
         super(message);
     }
 }

@@ -1,6 +1,7 @@
 package hexlet.code.service.impl;
 
 import hexlet.code.dto.UserDto;
+import hexlet.code.exception.UserNotFoundException;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
@@ -12,8 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -35,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(final Long id, final UserDto userDto) {
         final User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User with id = " + id + " not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         mapper.updateUser(user, userDto);
         return user;
     }
@@ -46,5 +45,11 @@ public class UserServiceImpl implements UserService {
         final String username = auth.getName();
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Not found user with 'username': " + username));
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        User user = getCurrentUser();
+        userRepository.delete(user);
     }
 }

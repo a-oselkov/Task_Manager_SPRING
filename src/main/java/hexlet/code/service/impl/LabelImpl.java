@@ -1,6 +1,7 @@
 package hexlet.code.service.impl;
 
 import hexlet.code.dto.LabelDto;
+import hexlet.code.exception.LabelNotFoundException;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
@@ -31,5 +32,17 @@ public class LabelImpl implements LabelService {
                 .orElseThrow(() -> new NoSuchElementException("Label with id = " + id + " not found"));
         mapper.updateLabel(label, labelDto);
         return label;
+    }
+
+    @Override
+    public Label getLabel(Long id) {
+        return labelRepository.findById(id)
+                .orElseThrow(() -> new LabelNotFoundException("Label not found"));
+    }
+
+    @Override
+    public void deleteLabel(Long id) {
+        Label label = getLabel(id);
+        labelRepository.delete(label);
     }
 }
