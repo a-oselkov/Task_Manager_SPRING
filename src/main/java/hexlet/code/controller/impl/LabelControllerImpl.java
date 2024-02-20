@@ -2,6 +2,7 @@ package hexlet.code.controller.impl;
 
 import hexlet.code.controller.LabelController;
 import hexlet.code.dto.LabelDto;
+import hexlet.code.exception.LabelNotFoundException;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.service.LabelService;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static hexlet.code.controller.impl.LabelControllerImpl.LABEL_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -42,7 +42,7 @@ public class LabelControllerImpl implements LabelController {
     @GetMapping(LABEL_ID)
     public Label getLabel(@PathVariable final Long id) {
         return labelRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Label with id " + id + " not found"));
+                .orElseThrow(() -> new LabelNotFoundException("Label not found"));
     }
 
     @PostMapping
