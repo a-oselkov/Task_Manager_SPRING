@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,7 +21,7 @@ public interface TaskStatusController {
     @ApiResponse(responseCode = "200", description = "List of task statuses",
             content = @Content(schema = @Schema(implementation = TaskStatus.class))
     )
-    List<TaskStatus> getTaskStatuses();
+    ResponseEntity<List<TaskStatus>> getTaskStatuses();
 
     @Operation(summary = "Get a task status by its id")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -29,7 +30,7 @@ public interface TaskStatusController {
                     content = @Content(schema = @Schema(implementation = TaskStatus.class))),
             @ApiResponse(responseCode = "404", description = "Task status not found")
     })
-    TaskStatus getTaskStatus(@PathVariable Long id);
+    ResponseEntity<TaskStatus> getTaskStatus(@PathVariable Long id);
 
     @Operation(summary = "Create a new task status")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -38,7 +39,7 @@ public interface TaskStatusController {
                     content = @Content(schema = @Schema(implementation = TaskStatus.class))),
             @ApiResponse(responseCode = "422", description = "Incorrect input data")
     })
-    TaskStatus createTaskStatus(@RequestBody @Valid TaskStatusDto taskStatusDto);
+    ResponseEntity<TaskStatus> createTaskStatus(@RequestBody @Valid TaskStatusDto taskStatusDto);
 
     @Operation(summary = "Update the task status")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -49,7 +50,7 @@ public interface TaskStatusController {
             @ApiResponse(responseCode = "404", description = "Task status with that id not found"),
             @ApiResponse(responseCode = "422", description = "Incorrect input data")
     })
-    TaskStatus updateTaskStatus(@PathVariable Long id,
+    ResponseEntity<TaskStatus> updateTaskStatus(@PathVariable Long id,
                                 @RequestBody @Valid TaskStatusDto taskStatusDto);
 
     @Operation(summary = "Delete the task status")
@@ -59,5 +60,5 @@ public interface TaskStatusController {
             @ApiResponse(responseCode = "403", description = "Access denied"),
             @ApiResponse(responseCode = "404", description = "Task status with that id not found")
     })
-    void deleteTaskStatus(@PathVariable Long id);
+    ResponseEntity<Void> deleteTaskStatus(@PathVariable Long id);
 }

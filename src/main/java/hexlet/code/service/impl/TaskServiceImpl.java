@@ -1,5 +1,6 @@
 package hexlet.code.service.impl;
 
+import com.querydsl.core.types.Predicate;
 import hexlet.code.dto.TaskDto;
 import hexlet.code.exception.TaskNotFoundException;
 import hexlet.code.mapper.TaskMapper;
@@ -50,6 +51,11 @@ public class TaskServiceImpl implements TaskService {
     public Task getTask(Long id) {
         return taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("Task not found"));
+    }
+
+    @Override
+    public Iterable<Task> getAllTasks(Predicate predicate) {
+        return taskRepository.findAll(predicate);
     }
 
     @Override

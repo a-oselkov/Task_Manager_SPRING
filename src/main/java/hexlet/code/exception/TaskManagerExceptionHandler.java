@@ -1,7 +1,6 @@
-package hexlet.code.controller;
+package hexlet.code.exception;
 
 import hexlet.code.dto.ErrorResponse;
-import hexlet.code.exception.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

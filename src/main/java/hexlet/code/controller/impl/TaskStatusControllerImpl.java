@@ -7,6 +7,7 @@ import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.service.TaskStatusService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 import static hexlet.code.controller.impl.TaskStatusControllerImpl.TASKSTATUS_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @AllArgsConstructor
@@ -33,33 +35,33 @@ public class TaskStatusControllerImpl implements TaskStatusController {
     public static final String TASKSTATUS_CONTROLLER_PATH = "/statuses";
     public static final String TASKSTATUS_ID = "/{id}";
 
-    @GetMapping
-    public List<TaskStatus> getTaskStatuses() {
-        return taskStatusRepository.findAll();
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TaskStatus>> getTaskStatuses() {
+        return ResponseEntity.status(OK).body(taskStatusService.getAllTaskStatuses());
     }
 
-    @GetMapping(TASKSTATUS_ID)
-    public TaskStatus getTaskStatus(@PathVariable final Long id) {
-        return taskStatusService.getTaskStatus(id);
+    @GetMapping(value = TASKSTATUS_ID, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<TaskStatus> getTaskStatus(@PathVariable final Long id) {
+        return ResponseEntity.status(OK).body(taskStatusService.getTaskStatus(id));
     }
 
-    @PostMapping
-    @ResponseStatus(CREATED)
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('USER')")
-    public TaskStatus createTaskStatus(@RequestBody @Valid final TaskStatusDto taskStatusDto) {
-        return taskStatusService.createTaskStatus(taskStatusDto);
+    public ResponseEntity<TaskStatus> createTaskStatus(@RequestBody @Valid final TaskStatusDto taskStatusDto) {
+        return ResponseEntity.status(CREATED).body(taskStatusService.createTaskStatus(taskStatusDto));
     }
 
-    @PutMapping(TASKSTATUS_ID)
+    @PutMapping(value = TASKSTATUS_ID, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('USER')")
-    public TaskStatus updateTaskStatus(@PathVariable final Long id,
+    public ResponseEntity<TaskStatus> updateTaskStatus(@PathVariable final Long id,
                                        @RequestBody @Valid final TaskStatusDto taskStatusDto) {
-        return taskStatusService.updateTaskStatus(id, taskStatusDto);
+        return ResponseEntity.status(OK).body(taskStatusService.updateTaskStatus(id, taskStatusDto));
     }
 
     @DeleteMapping(TASKSTATUS_ID)
     @PreAuthorize("hasAuthority('USER')")
-    public void deleteTaskStatus(@PathVariable final Long id) {
+    public ResponseEntity<Void> deleteTaskStatus(@PathVariable final Long id) {
         taskStatusService.deleteTaskStatus(id);
+        return ResponseEntity.status(OK).build();
     }
 }

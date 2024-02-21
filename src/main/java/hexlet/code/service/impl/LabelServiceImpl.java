@@ -10,12 +10,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @Transactional
 @AllArgsConstructor
-public class LabelImpl implements LabelService {
+public class LabelServiceImpl implements LabelService {
 
     private final LabelRepository labelRepository;
     private final LabelMapper mapper;
@@ -38,6 +39,11 @@ public class LabelImpl implements LabelService {
     public Label getLabel(Long id) {
         return labelRepository.findById(id)
                 .orElseThrow(() -> new LabelNotFoundException("Label not found"));
+    }
+
+    @Override
+    public List<Label> getAllLabels() {
+        return labelRepository.findAll();
     }
 
     @Override

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -38,6 +39,11 @@ public class TaskStatusServiceImpl implements TaskStatusService {
     public TaskStatus getTaskStatus(Long id) {
         return taskStatusRepository.findById(id)
                 .orElseThrow(() -> new TaskStatusException("Task status not found"));
+    }
+
+    @Override
+    public List<TaskStatus> getAllTaskStatuses() {
+        return taskStatusRepository.findAll();
     }
 
     @Override

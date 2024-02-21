@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -45,6 +47,17 @@ public class UserServiceImpl implements UserService {
         final String username = auth.getName();
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Not found user with 'username': " + username));
+    }
+
+    @Override
+    public User getUser(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     @Override

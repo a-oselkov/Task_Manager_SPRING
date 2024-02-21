@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,7 +21,7 @@ public interface TaskController {
     @ApiResponse(responseCode = "200", description = "List of tasks",
             content = @Content(schema = @Schema(implementation = Task.class))
     )
-    Iterable<Task> getAllTasks(@QuerydslPredicate(root = Task.class) Predicate predicate);
+    ResponseEntity<Iterable<Task>> getAllTasks(@QuerydslPredicate(root = Task.class) Predicate predicate);
 
     @Operation(summary = "Get a task by its id")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -29,7 +30,7 @@ public interface TaskController {
                     content = @Content(schema = @Schema(implementation = Task.class))),
             @ApiResponse(responseCode = "404", description = "Task not found")
     })
-    Task getTask(@PathVariable Long id);
+    ResponseEntity<Task> getTask(@PathVariable Long id);
 
     @Operation(summary = "Create a new task")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -38,7 +39,7 @@ public interface TaskController {
                     content = @Content(schema = @Schema(implementation = Task.class))),
             @ApiResponse(responseCode = "422", description = "Incorrect input data")
     })
-    Task createTask(@RequestBody @Valid TaskDto taskDto);
+    ResponseEntity<Task> createTask(@RequestBody @Valid TaskDto taskDto);
 
     @Operation(summary = "Update the task")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -49,7 +50,7 @@ public interface TaskController {
             @ApiResponse(responseCode = "404", description = "Task with that id not found"),
             @ApiResponse(responseCode = "422", description = "Incorrect input data")
     })
-    Task updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto);
+    ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto);
 
     @Operation(summary = "Delete the task")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -58,5 +59,5 @@ public interface TaskController {
             @ApiResponse(responseCode = "403", description = "Access denied"),
             @ApiResponse(responseCode = "404", description = "Task with that id not found")
     })
-    void deleteTask(@PathVariable Long id);
+    ResponseEntity<Void> deleteTask(@PathVariable Long id);
 }
