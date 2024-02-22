@@ -1,6 +1,5 @@
 package hexlet.code.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.config.SpringConfigTests;
 import hexlet.code.dto.LabelDto;
 import hexlet.code.model.Label;
@@ -12,11 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
-import java.util.List;
 
 import static hexlet.code.config.SpringConfigTests.TEST_PROFILE;
 import static hexlet.code.controller.impl.LabelControllerImpl.LABEL_CONTROLLER_PATH;
@@ -31,6 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -80,29 +77,24 @@ class LabelControllerImplTest {
     void getLabelById() throws Exception {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
         final Label expectedLabel = labelRepository.findAll().get(0);
-        final MockHttpServletResponse response = utils.perform(
+        utils.perform(
                         get(LABEL_CONTROLLER_PATH + LABEL_ID, expectedLabel.getId()),
                         TEST_USERNAME)
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        Label label = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
-        });
-        assertThat(label.getId()).isEqualTo(expectedLabel.getId());
-        assertThat(label.getName()).isEqualTo(expectedLabel.getName());
+                .andExpectAll(status().isOk(),
+                        jsonPath("$.id").value(expectedLabel.getId()),
+                        jsonPath("$.name").value(TEST_LABEL)
+                        );
     }
 
     @Test
     void getLabels() throws Exception {
         utils.regByAuthorizedUser(utils.getTestLabelDto(), LABEL_CONTROLLER_PATH);
-        final MockHttpServletResponse response = utils.perform(get(LABEL_CONTROLLER_PATH),
+        utils.perform(get(LABEL_CONTROLLER_PATH),
                         TEST_USERNAME)
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        final List<Label> labels = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
-        });
-        assertThat(labels).hasSize(1);
+                .andExpectAll(status().isOk(),
+                        jsonPath("$[0].id").value(3L),
+                        jsonPath("$[0].name").value(TEST_LABEL)
+                );
     }
 
     @Test

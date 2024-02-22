@@ -7,7 +7,7 @@ ___
 - Spring Framework(Spring Boot, Web MVC, Security, Data)
 - Hibernate ORM
 - PostgeSQL
-- JUnit, Mockito, Testcontainers
+- JUnit, Mockito, Testcontainers(на данный момент тесты переписываются)
 - Liquibase
 - Mapstruct
 - OpenApi

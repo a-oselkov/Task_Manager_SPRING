@@ -27,8 +27,8 @@ public class TaskManagerExceptionHandler {
 
     @ResponseStatus(UNPROCESSABLE_ENTITY)
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public Object validationExceptionsHandler(DataIntegrityViolationException exception) {
-        return exception.getCause().getMessage();
+    public String validationExceptionsHandler(DataIntegrityViolationException exception) {
+        return exception.getMessage();
     }
 
     @ResponseStatus(UNPROCESSABLE_ENTITY)
