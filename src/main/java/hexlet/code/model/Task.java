@@ -1,27 +1,13 @@
 package hexlet.code.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 import java.util.List;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
 import static jakarta.persistence.TemporalType.TIMESTAMP;
 
 @Builder
@@ -34,7 +20,11 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @SequenceGenerator(name = "task_seq",
+            sequenceName = "task_seq",
+            initialValue = 2,
+            allocationSize = 5)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq")
     private Long id;
 
     @NotNull
