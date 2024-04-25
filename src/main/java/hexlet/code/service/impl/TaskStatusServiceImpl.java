@@ -23,7 +23,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
 
     @Override
     public TaskStatus createTaskStatus(final TaskStatusDto taskStatusDto) {
-        final TaskStatus taskStatus = mapper.toTaskStatus(taskStatusDto);
+        final TaskStatus taskStatus = mapper.toEntity(taskStatusDto);
         return taskStatusRepository.save(taskStatus);
     }
 
@@ -31,7 +31,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
     public TaskStatus updateTaskStatus(final Long id, final TaskStatusDto taskStatusDto) {
         final TaskStatus taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Task status with id = " + id + " not found"));
-        mapper.updateTaskStatus(taskStatus, taskStatusDto);
+        mapper.updateEntity(taskStatus, taskStatusDto);
         return taskStatus;
     }
 

@@ -43,7 +43,7 @@ public class TaskServiceImpl implements TaskService {
     public Task updateTask(final Long id, final TaskDto taskDto) {
         final Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Task with id = " + id + " not found"));
-        mapper.updateTask(task, fromDto(taskDto));
+        mapper.updateEntity(task, fromDto(taskDto));
         return task;
     }
 

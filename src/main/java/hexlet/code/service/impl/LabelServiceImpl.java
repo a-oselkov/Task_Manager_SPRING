@@ -23,7 +23,7 @@ public class LabelServiceImpl implements LabelService {
 
     @Override
     public Label createLabel(final LabelDto labelDto) {
-        final Label label = mapper.toLabel(labelDto);
+        final Label label = mapper.toEntity(labelDto);
         return labelRepository.save(label);
     }
 
@@ -31,7 +31,7 @@ public class LabelServiceImpl implements LabelService {
     public Label updateLabel(final Long id, final LabelDto labelDto) {
         final Label label = labelRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Label with id = " + id + " not found"));
-        mapper.updateLabel(label, labelDto);
+        mapper.updateEntity(label, labelDto);
         return label;
     }
 

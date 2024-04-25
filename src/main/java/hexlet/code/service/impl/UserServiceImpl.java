@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(final UserDto userDto) {
         final String password = passwordEncoder.encode(userDto.password());
-        final User user = mapper.toUser(userDto);
+        final User user = mapper.toEntity(userDto);
         user.setPassword(password);
         return userRepository.save(user);
     }
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     public User updateUser(final Long id, final UserDto userDto) {
         final User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
-        mapper.updateUser(user, userDto);
+        mapper.updateEntity(user, userDto);
         return user;
     }
 
